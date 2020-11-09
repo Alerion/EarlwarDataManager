@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JSON Generator</title></head>
+    {# Load the tag library #}
+    {% load bootstrap4 %}
+
+    {# Load CSS and JavaScript #}
+    {% bootstrap_css %}
+    {% bootstrap_javascript jquery='full' %}
+<body>
+    <div class="container">
+        <h1>{{ title }}</h1>
+        {% block content %}{% endblock %}
+        {% block scripts %}{% endblock %}
+    </div>
+</body>
+</html>
