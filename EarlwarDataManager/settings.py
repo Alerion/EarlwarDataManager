@@ -122,5 +122,11 @@ USE_TZ = True
 STATIC_ROOT = os.path.join(BASE_DIR)
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
+    os.path.join(BASE_DIR, "_vendor"),
 ]
-STATIC_URL = '/static/'
+STATIC_URL = '/static/_vendor/'
+
+try:
+    from local_settings import *
+except ImportError:
+    pass

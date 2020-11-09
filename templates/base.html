@@ -4,14 +4,18 @@
     <meta charset="UTF-8">
     <title>JSON Generator</title></head>
     {# Load the tag library #}
+    {% load static %}
     {% load bootstrap4 %}
 
     {# Load CSS and JavaScript #}
     {% bootstrap_css %}
     {% bootstrap_javascript jquery='full' %}
+    <link rel="stylesheet" href="{% static 'bstreeview.css' %}" />
+    <script src="{% static 'bstreeview.js' %}"></script>
+    <script src="https://kit.fontawesome.com/761fdda99f.js" crossorigin="anonymous"></script>
 <body>
     <div class="container">
-        <h1>{{ title }}</h1>
+        <h1 class="mb-3 mt-5">{{ title }}</h1>
         {% block content %}{% endblock %}
         {% block scripts %}{% endblock %}
     </div>

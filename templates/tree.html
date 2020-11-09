@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+<div id="tree">
+</div>
+<script>
+    function getTree() {
+      return {{ data|safe }};
+    }
+
+    $('#tree').bstreeview({ data: getTree() });
+</script>
+{% endblock %}
