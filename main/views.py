@@ -10,5 +10,4 @@ def index(request):
 
 def folder(request, folder: str):
     folder = "\\" + folder.replace("/", "\\")
-    print(Table(folder).get())
-    return render(request, 'base.html')
+    return render(request, 'table.html', {"title": folder, "data": json.dumps(Table(folder).get())})

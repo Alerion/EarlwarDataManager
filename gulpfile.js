@@ -1,12 +1,32 @@
-const { series, src, dest } = require('gulp');
+const {src, series, dest} = require('gulp'),
+   uglify = require('gulp-uglify'),
+   concat = require('gulp-concat');
 
-// Task 1: copy bootstap's assets to /_vendor/
-function tree() {
+function js() {
   const files = [
-    'node_modules/bstreeview/src/css/bstreeview.css',
-    'node_modules/bstreeview/src/js/bstreeview.js'
+    'node_modules/jquery/dist/jquery.min.js',
+    'node_modules/popper.js/dist/umd/popper.min.js',
+    'node_modules/bootstrap/dist/js/bootstrap.min.js',
+    'node_modules/bootstrap-table/dist/bootstrap-table.min.js',
+    'node_modules/bstreeview/dist/js/bstreeview.min.js',
+    'node_modules/@fortawesome/fontawesome-free/js/all.min.js'
   ]
-  return src(files).pipe(dest('_vendor'))
+  return src(files)
+      .pipe(uglify())
+      .pipe(concat('app.js'))
+      .pipe(dest('_vendor'))
 }
 
-exports.default = series(tree)
+function css() {
+  const files = [
+    'node_modules/bootstrap/dist/css/bootstrap.min.css',
+    'node_modules/bootstrap-table/dist/bootstrap-table.min.css',
+    'node_modules/bstreeview/dist/css/bstreeview.min.css',
+    'node_modules/@fortawesome/fontawesome-free/css/all.min.css'
+  ]
+  return src(files)
+      .pipe(concat('app.css'))
+      .pipe(dest('_vendor'))
+}
+
+exports.default = series(js, css)

@@ -51,7 +51,10 @@ class Tree:
         lists = []
         os.chdir(settings.PATH + path)
         for item in os.listdir():
+            os.chdir(settings.PATH + path)
             if self.prepare_item(item, path):
                 lists.append(self.prepare_item(item, path))
+            if os.path.isdir(item) and item not in EXCLUDED_DIRS:
+                lists = lists + self.get_items(path + "\\" + item)
 
         return lists

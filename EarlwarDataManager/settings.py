@@ -116,6 +116,27 @@ USE_L10N = True
 USE_TZ = True
 
 
+FIELDS = {"Units": [
+    {"field": "Id", "title": "Id"},
+    {"field": "Name", "title": "Name"},
+    {"field": "MaxHealth", "title": "Max Health", "sortable": True},
+    {"field": "AttackType", "title": "Attack Type"},
+    {"field": "DamageMin", "title": "Damage Min", "sortable": True},
+    {"field": "DamageMax", "title": "Damage Max", "sortable": True},
+], "Abilities": [
+    {"field": "Id", "title": "Id"},
+    {"field": "Name", "title": "Name"},
+    {"field": "Class", "title": "Class"},
+    {"field": "MaxLevel", "title": "MaxLevel", "sortable": True},
+    {"field": "AbilityUnitTargetTeam", "title": "AbilityUnitTargetTeam", "sortable": True},
+    {"field": "AbilityDamageType", "title": "AbilityDamageType", "sortable": True},
+], "ItemModifiers": [
+    {"field": "Type", "title": "Type"},
+    {"field": "Domain", "title": "Domain"},
+    {"field": "Modifiers", "title": "Modifiers"}
+]}
+
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
