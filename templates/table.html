@@ -3,6 +3,10 @@
 <table id="table">
 </table>
 <script>
+    function linkFormatter(value, row) {
+        return "<a href='" + row.Path + "'>Edit</a>";
+    }
+
     $('#table').bootstrapTable({{ data|safe }})
 </script>
 {% endblock %}

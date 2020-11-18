@@ -16,7 +16,7 @@ class Tree:
         if name.endswith(tuple(ENABLED_EXTS)):
             return {
                 "text": name,
-                "href": path + "\\" + name
+                "path": path + "\\" + name
             }
 
         return False
@@ -27,7 +27,7 @@ class Tree:
             return {
                     "text": name,
                     "icon": "fa fa-folder",
-                    "href": path + "\\" + name,
+                    "path": path + "\\" + name,
                     "nodes": self.get(path + "\\" + name),
                 }
 
