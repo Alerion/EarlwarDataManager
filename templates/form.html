@@ -1,7 +1,26 @@
 {% extends 'base.html' %}
 {% block content %}
 {% load bootstrap4 %}
+{% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}" role="alert">
+        {{ message }}
+    </div>
+    {% endfor %}
+{% endif %}
+{% if error|length > 1 %}
+<div class="alert alert-danger" role="alert">
+    {{ error.0 }}
+    <a data-toggle="collapse" href="#collapseExample" class="alert-link" aria-controls="collapseExample">
+        [..]
+    </a>
+    <div class="collapse" id="collapseExample">
+        <pre>{{ error.1 }}</pre>
+    </div>
+</div>
+{% endif %}
 <form action="" method="post" class="form">
+    {% csrf_token %}
     {{ form.media }}
     {{ form }}
     {% buttons %}

@@ -1,5 +1,7 @@
 from django.conf import settings
 import os
+from EarlwarDataManager.path.path import get_path
+from EarlwarDataManager.path.path import get_edit_path
 
 EXCLUDED_DIRS = [
     'JSONSchemas'
@@ -15,8 +17,8 @@ class Tree:
     def prepare_item(self, name: str, path: str):
         if name.endswith(tuple(ENABLED_EXTS)):
             return {
-                "text": name,
-                "path": path + "\\" + name
+                'text': name,
+                'href': path,
             }
 
         return False
@@ -25,10 +27,10 @@ class Tree:
         os.chdir(settings.PATH + path)
         if os.path.isdir(name) and name not in EXCLUDED_DIRS:
             return {
-                    "text": name,
-                    "icon": "fa fa-folder",
-                    "path": path + "\\" + name,
-                    "nodes": self.get(path + "\\" + name),
+                    'text': name,
+                    'icon': 'fa fa-folder',
+                    'href': get_path(path, name),
+                    'nodes': self.get(get_path(path, name)),
                 }
 
         return False
@@ -38,12 +40,13 @@ class Tree:
         folders = []
         os.chdir(settings.PATH + path)
         for item in os.listdir():
-            if self.prepare_folder(item, path):
-                folders.append(self.prepare_folder(item, path))
+            prepared = self.prepare_folder(item, path)
+            if prepared:
+                folders.append(prepared)
                 continue
-
-            if self.prepare_item(item, path):
-                lists.append(self.prepare_item(item, path))
+            prepared = self.prepare_item(item, get_edit_path(f'{path}/{item}'))
+            if prepared:
+                lists.append(prepared)
 
         return folders + lists
 
@@ -52,9 +55,10 @@ class Tree:
         os.chdir(settings.PATH + path)
         for item in os.listdir():
             os.chdir(settings.PATH + path)
-            if self.prepare_item(item, path):
-                lists.append(self.prepare_item(item, path))
+            prepared = self.prepare_item(item, get_path(path, item))
+            if prepared:
+                lists.append(prepared)
             if os.path.isdir(item) and item not in EXCLUDED_DIRS:
-                lists = lists + self.get_items(path + "\\" + item)
+                lists = lists + self.get_items(get_path(path, item))
 
         return lists

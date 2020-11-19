@@ -11,4 +11,3 @@ class JsonForm(forms.Form):
             schema=schema,
             options={"theme": "bootstrap4", "ajax": True}
         )
-        print(self.fields)

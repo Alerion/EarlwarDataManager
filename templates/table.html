@@ -4,7 +4,11 @@
 </table>
 <script>
     function linkFormatter(value, row) {
-        return "<a href='" + row.Path + "'>Edit</a>";
+        console.log(row.Path)
+        if (row.Path !== undefined) {
+            return "<a href='" + row.Path + "'>Edit</a>"
+        }
+        return ""
     }
 
     $('#table').bootstrapTable({{ data|safe }})
