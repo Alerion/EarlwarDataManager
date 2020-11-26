@@ -23,7 +23,7 @@ class Tree:
         return False
 
     def prepare_folder(self, name: str, path: str):
-        os.chdir(settings.PATH + path)
+        os.chdir(settings.RESOURCES_DATA_PATH + path)
         if os.path.isdir(name) and name not in EXCLUDED_DIRS:
             return {
                     'text': name,
@@ -37,7 +37,7 @@ class Tree:
     def get(self, path=''):
         lists = []
         folders = []
-        os.chdir(settings.PATH + path)
+        os.chdir(settings.RESOURCES_DATA_PATH + path)
         for item in os.listdir():
             prepared = self.prepare_folder(item, path)
             if prepared:
@@ -51,9 +51,9 @@ class Tree:
 
     def get_items(self, path=''):
         lists = []
-        os.chdir(settings.PATH + path)
+        os.chdir(settings.RESOURCES_DATA_PATH + path)
         for item in os.listdir():
-            os.chdir(settings.PATH + path)
+            os.chdir(settings.RESOURCES_DATA_PATH + path)
             prepared = self.prepare_item(item, get_path(path, item))
             if prepared:
                 lists.append(prepared)

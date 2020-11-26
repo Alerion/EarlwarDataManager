@@ -15,7 +15,7 @@ function js() {
   return src(files)
       .pipe(uglify())
       .pipe(concat('app.js'))
-      .pipe(dest('_vendor'))
+      .pipe(dest('main/static'))
 }
 
 function css() {
@@ -27,7 +27,7 @@ function css() {
   ]
   return src(files)
       .pipe(concat('app.css'))
-      .pipe(dest('_vendor'))
+      .pipe(dest('main/static'))
 }
 
 exports.default = series(js, css)

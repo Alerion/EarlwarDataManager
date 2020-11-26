@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'bootstrap4',
     'django_jsonforms',
+    'main'
 ]
 
 MIDDLEWARE = [
@@ -144,20 +145,20 @@ TYPES = {
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
-
-
-
 STATIC_ROOT = os.path.join(BASE_DIR)
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
-    os.path.join(BASE_DIR, '_vendor'),
-]
+STATICFILES_DIRS = []
 STATIC_URL = '/static/'
 
-JSONFORMS_SCHEMA_DIR = 'dtdt'
+# defined in local settings
+RESOURCES_DATA_PATH = ""
 
 try:
-    from local_settings import *
+    from .local_settings import *
 except ImportError:
     pass
+
+JSON_SCHEMAS_PATH = os.path.join(RESOURCES_DATA_PATH, "JSONSchemas")
+
+if JSON_SCHEMAS_PATH:
+    STATICFILES_DIRS += [JSON_SCHEMAS_PATH]

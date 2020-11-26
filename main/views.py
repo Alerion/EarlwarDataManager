@@ -70,5 +70,5 @@ def add(request):
 
 
 def delete(request, path: str):
-    os.unlink(settings.PATH + path)
+    os.unlink(settings.RESOURCES_DATA_PATH + path)
     return HttpResponseRedirect(get_folder(path))
