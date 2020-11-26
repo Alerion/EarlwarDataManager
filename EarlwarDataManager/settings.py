@@ -137,20 +137,25 @@ FIELDS = {'Units': [
 ]}
 
 TYPES = {
-    'Units': 'JSONSchemas/UnitData.json',
-    'Abilities': 'JSONSchemas/AbilityData.json',
+    'Units': 'UnitData.json',
+    'Abilities': 'AbilityData.json',
 }
 
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
+
+
 STATIC_ROOT = os.path.join(BASE_DIR)
+
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
     os.path.join(BASE_DIR, '_vendor'),
 ]
-STATIC_URL = '/static/_vendor/'
+STATIC_URL = '/static/'
+
+JSONFORMS_SCHEMA_DIR = 'dtdt'
 
 try:
     from local_settings import *

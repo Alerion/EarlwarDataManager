@@ -1,7 +1,6 @@
 from django.conf import settings
 import os
 from EarlwarDataManager.path.path import get_path
-from EarlwarDataManager.path.path import get_edit_path
 
 EXCLUDED_DIRS = [
     'JSONSchemas'
@@ -44,7 +43,7 @@ class Tree:
             if prepared:
                 folders.append(prepared)
                 continue
-            prepared = self.prepare_item(item, get_edit_path(f'{path}/{item}'))
+            prepared = self.prepare_item(item, f'/edit{path}/{item}/form')
             if prepared:
                 lists.append(prepared)
 

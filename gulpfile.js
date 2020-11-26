@@ -9,7 +9,8 @@ function js() {
     'node_modules/bootstrap/dist/js/bootstrap.min.js',
     'node_modules/bootstrap-table/dist/bootstrap-table.min.js',
     'node_modules/bstreeview/dist/js/bstreeview.min.js',
-    'node_modules/@fortawesome/fontawesome-free/js/all.min.js'
+    'node_modules/@fortawesome/fontawesome-free/js/all.min.js',
+    'static/js/table.js'
   ]
   return src(files)
       .pipe(uglify())

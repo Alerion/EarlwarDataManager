@@ -3,14 +3,7 @@
 <table id="table">
 </table>
 <script>
-    function linkFormatter(value, row) {
-        console.log(row.Path)
-        if (row.Path !== undefined) {
-            return "<a href='" + row.Path + "'>Edit</a>"
-        }
-        return ""
-    }
-
     $('#table').bootstrapTable({{ data|safe }})
 </script>
+{% include 'add.html' with add=add %}
 {% endblock %}
