@@ -1,15 +1,18 @@
+from django.conf import settings
 from jsonschema import Draft4Validator, RefResolver
 import os
 
+from earlwar_data_manager.file.file import get_json
+
 
 class Validator:
-    def __init__(self, schema: dict, url: str):
+    def __init__(self, schema_type: str, url: str):
+        self.schema = get_json(os.path.join(settings.JSON_SCHEMAS_PATH, schema_type))
         self.resolver = RefResolver(
             base_uri=url,
-            referrer=schema
+            referrer=self.schema
         )
         self.base_uri = url
-        self.schema = schema
 
     def validate(self, data: dict):
         Draft4Validator.check_schema(self.schema)

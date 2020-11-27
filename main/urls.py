@@ -8,5 +8,5 @@ urlpatterns = [
     path('edit/<path:path>/form', views.edit),
     path('delete/<path:path>', views.delete),
     path('edit/<path:path>/<path:dependency>', views.view),
-    path('<path:folder>', views.folder),
+    path('<path:path>', views.table),
 ]

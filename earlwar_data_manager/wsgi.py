@@ -1,5 +1,5 @@
 """
-WSGI config for EarlwarDataManager project.
+WSGI config for earlwar_data_manager project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'EarlwarDataManager.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'earlwar_data_manager.settings')
 
 application = get_wsgi_application()

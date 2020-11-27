@@ -1,7 +1,7 @@
 from django.conf import settings
-from EarlwarDataManager.tree.tree import Tree
-from EarlwarDataManager.file.file import get_json
-from EarlwarDataManager.path.path import get_root
+from earlwar_data_manager.tree.tree import Tree
+from earlwar_data_manager.file.file import get_json
+from earlwar_data_manager.path.path import get_root
 
 
 class Table:

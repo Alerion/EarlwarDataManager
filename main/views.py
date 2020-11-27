@@ -1,43 +1,36 @@
-import os
-
 from django.shortcuts import render
 from django.contrib import messages
-from EarlwarDataManager.tree.tree import Tree
-from EarlwarDataManager.table.table import Table
-from EarlwarDataManager.file.file import *
-from EarlwarDataManager.path.path import *
-from EarlwarDataManager.form.edit import JsonForm
-from EarlwarDataManager.form.add import AddForm
+from earlwar_data_manager.tree.tree import Tree
+from earlwar_data_manager.table.table import Table
+from earlwar_data_manager.file.file import *
+from earlwar_data_manager.path.path import *
+from earlwar_data_manager.form.edit import *
+from earlwar_data_manager.form.add import *
 from django.http import JsonResponse, HttpResponseRedirect
-from EarlwarDataManager.form.validator import Validator
+from earlwar_data_manager.form.validator import Validator
 from django.conf import settings
-
-SCHEMA_PATH = 'JSONSchemas'
 
 
 def index(request):
     return render(request, 'tree.html', {'title': 'Tree view', 'data': json.dumps(Tree().get())})
 
 
-def folder(request, folder: str):
-    add = AddForm()
-    add.path = folder
+def table(request, path: str):
     return render(request, 'table.html', {
-        'title': folder,
-        'data': json.dumps(Table(folder).get()),
-        'add': add
+        'title': path,
+        'data': json.dumps(Table(path).get()),
+        'add_form': AddForm(initial={'path': path})
     })
 
 
 def edit(request, path: str):
     schema_type = settings.TYPES[get_root(path)]
-    schema = get_json(f'{SCHEMA_PATH}/{schema_type}')
 
     error = ""
     if request.method == 'POST':
         data = json.loads(request.POST['json'])
         try:
-            validator = Validator(schema, request.build_absolute_uri())
+            validator = Validator(schema_type, request.build_absolute_uri())
             validator.validate(data)
             put_json(data, path)
             messages.add_message(request, messages.SUCCESS, 'Successfully changed')
@@ -55,20 +48,18 @@ def edit(request, path: str):
 
 
 def view(request, path: str, dependency: str):
-    data = get_json(f'{SCHEMA_PATH}/{dependency}')
-
-    return JsonResponse(data)
+    return JsonResponse(get_json(os.path.join(settings.JSON_SCHEMAS_PATH, dependency)))
 
 
 def add(request):
     if request.method == 'POST':
-        add = AddForm(request.POST)
-        if add.is_valid():
-            path = f'{add.data["path"]}/{add.data["name"]}'
+        add_form, = AddForm(request.POST)
+        if add_form.is_valid():
+            path = os.path.join(add_form.data["path"], add_form.data["name"])
             put_json({}, path)
             return HttpResponseRedirect(f'/edit/{path}/form')
 
 
 def delete(request, path: str):
-    os.unlink(settings.RESOURCES_DATA_PATH + path)
+    os.unlink(os.path.join(settings.RESOURCES_DATA_PATH, path))
     return HttpResponseRedirect(get_folder(path))

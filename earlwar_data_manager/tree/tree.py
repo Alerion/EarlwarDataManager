@@ -1,6 +1,6 @@
 from django.conf import settings
 import os
-from EarlwarDataManager.path.path import get_path
+from earlwar_data_manager.path.path import get_path
 
 EXCLUDED_DIRS = [
     'JSONSchemas'

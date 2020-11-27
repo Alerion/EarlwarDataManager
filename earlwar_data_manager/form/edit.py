@@ -9,5 +9,9 @@ class JsonForm(forms.Form):
         super(JsonForm, self).__init__(*args, **kwargs)
         self.fields["json"] = JSONSchemaField(
             schema=schema,
-            options={"theme": "bootstrap4", "ajax": True}
+            options={
+                "theme": "bootstrap4",
+                "object_layout": "grid",
+                "ajax": True
+            }
         )
