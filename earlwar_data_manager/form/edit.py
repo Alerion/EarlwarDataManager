@@ -1,5 +1,33 @@
 from django import forms
-from django_jsonforms.forms import JSONSchemaField
+from django_jsonforms.forms import JSONSchemaField as BaseJSONSchemaField, JSONEditorWidget as BaseJSONEditorWidget
+from django.conf import settings
+
+JSONEDITOR_JS_URL = 'https://cdn.jsdelivr.net/npm/@json-editor/json-editor@latest/dist/jsoneditor.min.js'
+
+
+class JSONEditorWidget(BaseJSONEditorWidget):
+    class Media:
+        js = (
+            JSONEDITOR_JS_URL,
+            'django_jsonforms/jsoneditor_init.js'
+        )
+
+
+class JSONSchemaField(BaseJSONSchemaField):
+
+    def __init__(self, schema, options, ajax=True, *args, **kwargs):
+        forms.CharField.__init__(self, *args, **kwargs)
+
+        self.schemadir = getattr(settings, 'JSONFORMS_SCHEMA_DIR', settings.STATIC_ROOT)
+        self.backvalidate = getattr(settings, 'JSONFORMS_SCHEMA_VALIDATE', True)
+
+        self.schema = self.load(schema)
+
+        if ajax:
+            self.widget = JSONEditorWidget(schema=schema, options=options)
+        else:
+            self.options = self.load(options)
+            self.widget = JSONEditorWidget(schema=self.schema, options=self.options)
 
 
 class JsonForm(forms.Form):
@@ -11,7 +39,6 @@ class JsonForm(forms.Form):
             schema=schema,
             options={
                 "theme": "bootstrap4",
-                "object_layout": "grid",
                 "ajax": True
             }
         )
