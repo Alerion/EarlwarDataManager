@@ -39,6 +39,10 @@ class JsonForm(forms.Form):
             schema=schema,
             options={
                 "theme": "bootstrap4",
+                "disable_edit_json": True,
+                "array_controls_top": True,
+                "remove_button_labels": True,  # FIXME
+                "disable_array_delete_all_rows": True,  # FIXME
                 "ajax": True
             }
         )
