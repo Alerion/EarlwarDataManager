@@ -11,4 +11,4 @@ def get_json(path: str):
 
 def put_json(data: dict, path: str):
     with open(os.path.join(settings.RESOURCES_DATA_PATH, path), 'w', encoding='utf-8-sig') as f:
-        return json.dump(data, f)
+        return json.dump(data, f, indent=4)
