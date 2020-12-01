@@ -8,7 +8,7 @@ class Table:
 
     SETTINGS_FIELDS = [
         {'field': 'Error', 'title': 'Error'},
-        {'field': 'Link', 'title': 'Link', 'formatter': 'linkFormatter'},
+        {'field': 'Link', 'title': 'Actions', 'formatter': 'linkFormatter'},
     ]
 
     def __init__(self, path: str):

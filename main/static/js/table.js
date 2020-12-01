@@ -1,13 +1,27 @@
+function button(href, content, attributes) {
+    attributes = attributes ? attributes : {}
+    const dataAttrs = Object.keys(attributes).map(function(key) {
+        return key + '="' + attributes[key] + '"'
+    }).join(' ');
+    return '<a class="btn" href="' + href + '" ' + dataAttrs + '>' + content + '</a>'
+}
+
+function icon(customClass) {
+    return '<i class="fa ' + customClass + '"></i>'
+}
+
 function linkFormatter(value, row) {
-    if (row.Path !== undefined) {
-        var edit = document.createElement('a', {
-            href: '/edit/' + row.Path + '/form'
-        })
-        return "<a href='/edit/" + row.Path + "/form'>Edit</a>" +
-            " <a href='/delete/" + row.Path + "'>Del</a>" +
-            " <a href='#' data-toggle='modal' >"
+    if (!row || !row.Path) {
+        return
     }
-    return ""
+    return button('/edit/' + row.Path + '/form', icon('fa-pen')) +
+        button('/delete/' + row.Path + '/form', icon('fa-trash')) +
+        button('#', icon('fa-i-cursor'), {
+            'data-toggle': 'modal',
+            'data-target': '#addModal',
+            'data-action': '/rename/file',
+            'title': 'Rename',
+        })
 }
 
 function buttons() {
