@@ -15,11 +15,13 @@ function linkFormatter(value, row) {
         return
     }
     return button('/edit/' + row.Path + '/form', icon('fa-pen')) +
-        button('/delete/' + row.Path + '/form', icon('fa-trash')) +
+        button('/delete/' + row.Path, icon('fa-trash')) +
         button('#', icon('fa-i-cursor'), {
             'data-toggle': 'modal',
             'data-target': '#addModal',
             'data-action': '/rename/file',
+            'data-value': row.Filename,
+            'data-old_value': row.Path,
             'title': 'Rename',
         })
 }
@@ -51,10 +53,15 @@ function buttons() {
 
 $(function () {
     $('#addModal').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget)
-        var modal = $(this)
-        modal.find('form').attr('action', button.data('action'))
-        modal.find('#name').attr('placeholder', button.data('placeholder'))
-        modal.find('h5').text(button.attr('title'))
+        let $button = $(event.relatedTarget)
+        let $modal = $(this)
+        let $name = $modal.find('#id_name')
+
+        $name.attr('placeholder', $button.data('placeholder'))
+        $name.val($button.data('value'))
+
+        $modal.find('form').attr('action', $button.data('action'))
+        $modal.find('#id_old_name').val($button.data('old_value'))
+        $modal.find('h5').text($button.attr('title'))
     })
 })

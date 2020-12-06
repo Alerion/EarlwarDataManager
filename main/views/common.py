@@ -1,14 +1,17 @@
-from django.shortcuts import render
-from django.contrib import messages
-from earlwar_data_manager.tree.tree import Tree
-from earlwar_data_manager.table.table import Table
-from earlwar_data_manager.file.file import *
-from earlwar_data_manager.path.path import *
-from earlwar_data_manager.form.edit import *
-from earlwar_data_manager.form.add import *
-from django.http import JsonResponse, HttpResponseRedirect
-from earlwar_data_manager.form.validator import Validator
+import json
+import os
+
 from django.conf import settings
+from django.contrib import messages
+from django.shortcuts import render
+
+from earlwar_data_manager.file.file import put_json, get_json
+from earlwar_data_manager.form.add import AddForm
+from earlwar_data_manager.form.edit import JsonForm
+from earlwar_data_manager.form.validator import Validator
+from earlwar_data_manager.path.path import get_root, get_relative_path
+from earlwar_data_manager.table.table import Table
+from earlwar_data_manager.tree.tree import Tree
 
 
 def index(request):
@@ -42,24 +45,6 @@ def edit(request, path: str):
     return render(request, 'form.html', {
         'form': JsonForm(schema_type, initial={'json': data}),
         'title': path,
-        'back': get_folder(path),
+        'back': get_relative_path(os.path.dirname(path)),
         "error": error.split('\n', 1)}
     )
-
-
-def view(request, path: str, dependency: str):
-    return JsonResponse(get_json(os.path.join(settings.JSON_SCHEMAS_PATH, dependency)))
-
-
-def add(request):
-    if request.method == 'POST':
-        add_form, = AddForm(request.POST)
-        if add_form.is_valid():
-            path = os.path.join(add_form.data["path"], add_form.data["name"])
-            put_json({}, path)
-            return HttpResponseRedirect(f'/edit/{path}/form')
-
-
-def delete(request, path: str):
-    os.unlink(os.path.join(settings.RESOURCES_DATA_PATH, path))
-    return HttpResponseRedirect(get_folder(path))

@@ -2,7 +2,6 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <form action="" method="post" class="form">
-                {{ add }}
                 <div class="modal-header">
                     <h5 class="modal-title"></h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -11,9 +10,7 @@
                 </div>
                 <div class="modal-body">
                         {% csrf_token %}
-                        <label for="name">Name:</label>
-                        <input id="name" type="text" name="name" placeholder="" required>
-                        <input id="path" type="hidden" name="path" value="{{ add.path }}">
+                        {{ add }}
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

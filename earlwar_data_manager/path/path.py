@@ -1,8 +1,4 @@
-import re
-
-
-def get_path(path: str, name: str):
-    return f'{path}/{name}'
+import os
 
 
 def get_root(path: str):
@@ -10,6 +6,5 @@ def get_root(path: str):
     return split[1] if split[0] == '' else split[0]
 
 
-def get_folder(file: str):
-    m = re.match('^(.+)/([^/]+)$', file)
-    return f'/{m.group(1)}'
+def get_relative_path(path: str):
+    return '/' + path.replace(os.sep, '/')

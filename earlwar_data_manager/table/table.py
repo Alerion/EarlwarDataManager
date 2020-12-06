@@ -20,6 +20,7 @@ class Table:
         try:
             data = get_json(file['href'])
             data['Path'] = file['href']
+            data['Filename'] = file['text']
         except Exception as err:
             data = {'Error': file['href'] + ' ' + format(err)}
         self.result.append(data)

@@ -2,5 +2,6 @@ from django import forms
 
 
 class AddForm(forms.Form):
-    name = forms.TextInput()
-    path = forms.HiddenInput()
+    name = forms.CharField()
+    path = forms.CharField(widget=forms.HiddenInput)
+    old_name = forms.CharField(widget=forms.HiddenInput, required=False)

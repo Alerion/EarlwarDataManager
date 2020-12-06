@@ -1,6 +1,5 @@
 from django.conf import settings
 import os
-from earlwar_data_manager.path.path import get_path
 
 EXCLUDED_DIRS = [
     'JSONSchemas'
@@ -23,13 +22,13 @@ class Tree:
         return False
 
     def prepare_folder(self, name: str, path: str):
-        os.chdir(settings.RESOURCES_DATA_PATH + path)
+        os.chdir(os.path.join(settings.RESOURCES_DATA_PATH, path))
         if os.path.isdir(name) and name not in EXCLUDED_DIRS:
             return {
                     'text': name,
                     'icon': 'fa fa-folder',
-                    'href': get_path(path, name),
-                    'nodes': self.get(get_path(path, name)),
+                    'href': os.path.join(path, name),
+                    'nodes': self.get(os.path.join(path, name)),
                 }
 
         return False
@@ -37,13 +36,13 @@ class Tree:
     def get(self, path=''):
         lists = []
         folders = []
-        os.chdir(settings.RESOURCES_DATA_PATH + path)
+        os.chdir(os.path.join(settings.RESOURCES_DATA_PATH, path))
         for item in os.listdir():
             prepared = self.prepare_folder(item, path)
             if prepared:
                 folders.append(prepared)
                 continue
-            prepared = self.prepare_item(item, f'/edit{path}/{item}/form')
+            prepared = self.prepare_item(item, os.path.join('/edit', path, item, 'form'))
             if prepared:
                 lists.append(prepared)
 
@@ -54,10 +53,10 @@ class Tree:
         os.chdir(settings.RESOURCES_DATA_PATH + path)
         for item in os.listdir():
             os.chdir(settings.RESOURCES_DATA_PATH + path)
-            prepared = self.prepare_item(item, get_path(path, item))
+            prepared = self.prepare_item(item, os.path.join(path, item))
             if prepared:
                 lists.append(prepared)
             if os.path.isdir(item) and item not in EXCLUDED_DIRS:
-                lists = lists + self.get_items(get_path(path, item))
+                lists = lists + self.get_items(os.path.join(path, item))
 
         return lists
