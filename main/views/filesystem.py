@@ -1,7 +1,8 @@
 import os
 
 from django.conf import settings
-from django.http import JsonResponse, HttpResponseRedirect
+from django.http import JsonResponse, HttpResponseRedirect, FileResponse, HttpResponse
+from django.contrib.staticfiles.urls import static
 
 from earlwar_data_manager.file.file import get_json, put_json
 from earlwar_data_manager.form.add import AddForm
@@ -10,6 +11,14 @@ from earlwar_data_manager.path.path import get_relative_path
 
 def view(request, path: str, dependency: str):
     return JsonResponse(get_json(os.path.join(settings.JSON_SCHEMAS_PATH, dependency)))
+
+
+def view_icon(request, path: str):
+    path = os.path.join(settings.RESOURCES_PATH, path + '.png')
+    if os.path.isfile(path):
+        return FileResponse(open(path, 'rb'))
+
+    return HttpResponseRedirect('/static/images/no_image.png')
 
 
 def rename(request):

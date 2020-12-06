@@ -50,9 +50,9 @@ class Tree:
 
     def get_items(self, path=''):
         lists = []
-        os.chdir(settings.RESOURCES_DATA_PATH + path)
+        os.chdir(os.path.join(settings.RESOURCES_DATA_PATH, path))
         for item in os.listdir():
-            os.chdir(settings.RESOURCES_DATA_PATH + path)
+            os.chdir(os.path.join(settings.RESOURCES_DATA_PATH, path))
             prepared = self.prepare_item(item, os.path.join(path, item))
             if prepared:
                 lists.append(prepared)

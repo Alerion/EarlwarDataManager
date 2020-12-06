@@ -26,6 +26,13 @@ function linkFormatter(value, row) {
         })
 }
 
+function iconFormatter(value, row) {
+    if (!row || !row.Icon) {
+        return
+    }
+    return '<img src="/icon/'+ row.Icon+'" alt="'+ row.Name +'" class="img" width="40" />'
+}
+
 function buttons() {
     return {
         btnAdd: {

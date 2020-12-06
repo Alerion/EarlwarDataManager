@@ -125,12 +125,12 @@ FIELDS = {'Units': [
     {'field': 'DamageMin', 'title': 'Damage Min', 'sortable': True},
     {'field': 'DamageMax', 'title': 'Damage Max', 'sortable': True},
 ], 'Abilities': [
+    {'field': 'Icon', 'title': 'Icon', 'formatter': 'iconFormatter'},
     {'field': 'Id', 'title': 'Id'},
     {'field': 'Name', 'title': 'Name'},
     {'field': 'Class', 'title': 'Class'},
     {'field': 'MaxLevel', 'title': 'MaxLevel', 'sortable': True},
-    {'field': 'AbilityUnitTargetTeam', 'title': 'AbilityUnitTargetTeam', 'sortable': True},
-    {'field': 'AbilityDamageType', 'title': 'AbilityDamageType', 'sortable': True},
+    {'field': 'AbilityDamageType', 'title': 'Ability Damage Type', 'sortable': True},
 ], 'ItemModifiers': [
     {'field': 'Type', 'title': 'Type'},
     {'field': 'Domain', 'title': 'Domain'},
@@ -151,13 +151,14 @@ STATICFILES_DIRS = []
 STATIC_URL = '/static/'
 
 # defined in local settings
-RESOURCES_DATA_PATH = ""
+RESOURCES_PATH = ""
 
 try:
     from .local_settings import *
 except ImportError:
     pass
 
+RESOURCES_DATA_PATH = os.path.join(RESOURCES_PATH, "Data")
 JSON_SCHEMAS_PATH = os.path.join(RESOURCES_DATA_PATH, "JSONSchemas")
 
 if JSON_SCHEMAS_PATH:
