@@ -39,6 +39,7 @@ class JsonForm(forms.Form):
             schema=schema,
             options={
                 "theme": "bootstrap4",
+                "iconlib": "fontawesome4",
                 "disable_edit_json": True,
                 "array_controls_top": True,
                 "remove_button_labels": True,  # FIXME

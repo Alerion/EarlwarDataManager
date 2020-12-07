@@ -1,8 +1,7 @@
 import os
 
 from django.conf import settings
-from django.http import JsonResponse, HttpResponseRedirect, FileResponse, HttpResponse
-from django.contrib.staticfiles.urls import static
+from django.http import JsonResponse, HttpResponseRedirect, FileResponse
 
 from earlwar_data_manager.file.file import get_json, put_json
 from earlwar_data_manager.form.add import AddForm
@@ -25,18 +24,20 @@ def rename(request):
     if request.method == 'POST':
         form = AddForm(request.POST)
         if form.is_valid():
-            dir_name = os.path.dirname(form.data["old_name"])
-            old_path = os.path.join(settings.RESOURCES_DATA_PATH, form.data["old_name"])
-            new_path = os.path.join(os.path.dirname(old_path), form.data["name"])
+            dir_name = os.path.dirname(form.cleaned_data["old_name"])
+            old_path = os.path.join(settings.RESOURCES_DATA_PATH, form.cleaned_data["old_name"])
+            new_path = os.path.join(os.path.dirname(old_path), form.cleaned_data["name"])
             os.rename(old_path, new_path)
-            return HttpResponseRedirect(get_relative_path(os.path.join('edit', dir_name, form.data["name"], 'form')))
+            return HttpResponseRedirect(get_relative_path(
+                os.path.join('edit', dir_name, form.cleaned_data["name"], 'form')
+            ))
 
 
 def add(request):
     if request.method == 'POST':
         form = AddForm(request.POST)
         if form.is_valid():
-            path = os.path.join(form.data["path"], form.data["name"])
+            path = os.path.join(form.cleaned_data["path"], form.cleaned_data["name"])
             put_json({}, path)
             return HttpResponseRedirect(get_relative_path(os.path.join('edit', path, 'form')))
 

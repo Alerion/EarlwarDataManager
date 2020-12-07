@@ -9,8 +9,7 @@ function js() {
     'node_modules/bootstrap/dist/js/bootstrap.min.js',
     'node_modules/bootstrap-table/dist/bootstrap-table.min.js',
     'node_modules/bstreeview/dist/js/bstreeview.min.js',
-    'node_modules/@fortawesome/fontawesome-free/js/all.min.js',
-    'main/static/js/table.js'
+    'main/static/js/table.js',
   ]
   return src(files)
       .pipe(uglify())
@@ -23,7 +22,6 @@ function css() {
     'node_modules/bootstrap/dist/css/bootstrap.min.css',
     'node_modules/bootstrap-table/dist/bootstrap-table.min.css',
     'node_modules/bstreeview/dist/css/bstreeview.min.css',
-    'node_modules/@fortawesome/fontawesome-free/css/all.min.css'
   ]
   return src(files)
       .pipe(concat('app.css'))
