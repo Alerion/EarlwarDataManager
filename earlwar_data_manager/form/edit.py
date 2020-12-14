@@ -2,14 +2,14 @@ from django import forms
 from django_jsonforms.forms import JSONSchemaField as BaseJSONSchemaField, JSONEditorWidget as BaseJSONEditorWidget
 from django.conf import settings
 
-JSONEDITOR_JS_URL = 'https://cdn.jsdelivr.net/npm/@json-editor/json-editor@latest/dist/jsoneditor.min.js'
+JSONEDITOR_JS_URL = 'https://cdn.jsdelivr.net/npm/@json-editor/json-editor@latest/dist/jsoneditor.js'
 
 
 class JSONEditorWidget(BaseJSONEditorWidget):
     class Media:
+        extend = False
         js = (
             JSONEDITOR_JS_URL,
-            'django_jsonforms/jsoneditor_init.js'
         )
 
 
@@ -42,7 +42,7 @@ class JsonForm(forms.Form):
                 "iconlib": "fontawesome4",
                 "disable_edit_json": True,
                 "array_controls_top": True,
-                "remove_button_labels": True,  # FIXME
+                "remove_button_labels": True,
                 "disable_array_delete_all_rows": True,  # FIXME
                 "ajax": True
             }

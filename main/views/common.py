@@ -42,8 +42,10 @@ def edit(request, path: str):
     else:
         data = get_json(path)
 
+    form = JsonForm(schema_type, initial={'json': data})
+    print(form.media)
     return render(request, 'form.html', {
-        'form': JsonForm(schema_type, initial={'json': data}),
+        'form': form,
         'title': path,
         'back': get_relative_path(os.path.dirname(path)),
         "error": error.split('\n', 1)}

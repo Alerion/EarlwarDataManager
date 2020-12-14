@@ -6,14 +6,17 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.1",
     "bootstrap": "^4.5.3",
-    "bootstrap-table": "^1.18.0",
+    "bootstrap-table": "^1.18.1",
     "bstreeview": "^1.2.0",
     "gulp": "^4.0.2",
     "jquery": "^3.5.1",
-    "popper.js": "^1.16.1"
+    "popper.js": "^1.16.1",
+    "select2": "^4.0.13",
+    "terser": "^5.5.1"
   },
   "devDependencies": {
     "gulp-concat": "^2.6.1",
+    "gulp-terser": "^2.0.0",
     "gulp-uglify": "^3.0.2"
   },
   "scripts": {

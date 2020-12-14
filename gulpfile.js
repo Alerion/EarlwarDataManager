@@ -1,5 +1,5 @@
 const {src, series, dest} = require('gulp'),
-   uglify = require('gulp-uglify'),
+   uglify = require('gulp-terser'),
    concat = require('gulp-concat');
 
 function js() {
@@ -9,7 +9,8 @@ function js() {
     'node_modules/bootstrap/dist/js/bootstrap.min.js',
     'node_modules/bootstrap-table/dist/bootstrap-table.min.js',
     'node_modules/bstreeview/dist/js/bstreeview.min.js',
-    'main/static/js/table.js',
+    'node_modules/select2/dist/js/select2.min.js',
+    'main/static/js/*.js',
   ]
   return src(files)
       .pipe(uglify())
@@ -22,6 +23,7 @@ function css() {
     'node_modules/bootstrap/dist/css/bootstrap.min.css',
     'node_modules/bootstrap-table/dist/bootstrap-table.min.css',
     'node_modules/bstreeview/dist/css/bstreeview.min.css',
+    'node_modules/select2/dist/css/select2.min.css',
   ]
   return src(files)
       .pipe(concat('app.css'))
