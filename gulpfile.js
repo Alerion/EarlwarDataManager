@@ -24,6 +24,7 @@ function css() {
     'node_modules/bootstrap-table/dist/bootstrap-table.min.css',
     'node_modules/bstreeview/dist/css/bstreeview.min.css',
     'node_modules/select2/dist/css/select2.min.css',
+    'main/static/css/*.css',
   ]
   return src(files)
       .pipe(concat('app.css'))
