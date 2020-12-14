@@ -2,7 +2,7 @@ from django import forms
 from django_jsonforms.forms import JSONSchemaField as BaseJSONSchemaField, JSONEditorWidget as BaseJSONEditorWidget
 from django.conf import settings
 
-JSONEDITOR_JS_URL = 'https://cdn.jsdelivr.net/npm/@json-editor/json-editor@latest/dist/jsoneditor.js'
+JSONEDITOR_JS_URL = 'https://cdn.jsdelivr.net/npm/@json-editor/json-editor@latest/dist/jsoneditor.min.js'
 
 
 class JSONEditorWidget(BaseJSONEditorWidget):
