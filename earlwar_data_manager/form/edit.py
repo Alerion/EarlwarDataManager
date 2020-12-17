@@ -43,6 +43,8 @@ class JsonForm(forms.Form):
                 "disable_edit_json": True,
                 "array_controls_top": True,
                 "remove_button_labels": True,
+                "remove_empty_properties": True,
+                "display_required_only": True,
                 "disable_array_delete_all_rows": True,  # FIXME
                 "ajax": True
             }
