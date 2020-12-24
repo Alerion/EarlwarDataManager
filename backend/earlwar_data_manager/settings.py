@@ -39,12 +39,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'bootstrap4',
     'django_jsonforms',
-    'main'
+    'main',
+    'corsheaders'
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -118,23 +120,23 @@ USE_TZ = True
 
 
 FIELDS = {'Units': [
-    {'field': 'Id', 'title': 'Id'},
-    {'field': 'Name', 'title': 'Name'},
-    {'field': 'MaxHealth', 'title': 'Max Health', 'sortable': True},
-    {'field': 'AttackType', 'title': 'Attack Type'},
-    {'field': 'DamageMin', 'title': 'Damage Min', 'sortable': True},
-    {'field': 'DamageMax', 'title': 'Damage Max', 'sortable': True},
+    {'value': 'Id', 'text': 'Id', 'align': 'start'},
+    {'value': 'Name', 'text': 'Name'},
+    {'value': 'MaxHealth', 'text': 'Max Health', 'sortable': True},
+    {'value': 'AttackType', 'text': 'Attack Type'},
+    {'value': 'DamageMin', 'text': 'Damage Min', 'sortable': True},
+    {'value': 'DamageMax', 'text': 'Damage Max', 'sortable': True},
 ], 'Abilities': [
-    {'field': 'Icon', 'title': 'Icon', 'formatter': 'iconFormatter'},
-    {'field': 'Id', 'title': 'Id'},
-    {'field': 'Name', 'title': 'Name'},
-    {'field': 'Class', 'title': 'Class'},
-    {'field': 'MaxLevel', 'title': 'MaxLevel', 'sortable': True},
-    {'field': 'AbilityDamageType', 'title': 'Ability Damage Type', 'sortable': True},
+    {'value': 'Icon', 'text': 'Icon', 'formatter': 'iconFormatter'},
+    {'value': 'Id', 'text': 'Id'},
+    {'value': 'Name', 'text': 'Name'},
+    {'value': 'Class', 'text': 'Class'},
+    {'value': 'MaxLevel', 'text': 'MaxLevel', 'sortable': True},
+    {'value': 'AbilityDamageType', 'text': 'Ability Damage Type', 'sortable': True},
 ], 'ItemModifiers': [
-    {'field': 'Type', 'title': 'Type'},
-    {'field': 'Domain', 'title': 'Domain'},
-    {'field': 'Modifiers', 'title': 'Modifiers'}
+    {'value': 'Type', 'text': 'Type'},
+    {'value': 'Domain', 'text': 'Domain'},
+    {'value': 'Modifiers', 'text': 'Modifiers'}
 ]}
 
 TYPES = {
@@ -163,3 +165,8 @@ JSON_SCHEMAS_PATH = os.path.join(RESOURCES_DATA_PATH, "JSONSchemas")
 
 if JSON_SCHEMAS_PATH:
     STATICFILES_DIRS += [JSON_SCHEMAS_PATH]
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:8080",
+    "http://127.0.0.1:8080"
+]

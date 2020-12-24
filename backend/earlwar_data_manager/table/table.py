@@ -7,8 +7,7 @@ from earlwar_data_manager.path.path import get_root
 class Table:
 
     SETTINGS_FIELDS = [
-        {'field': 'Link', 'title': 'Actions', 'formatter': 'linkFormatter'},
-        {'field': 'Error', 'title': 'Error', 'visible': False},
+        {'value': 'Error', 'text': 'Error', 'visible': False},
     ]
 
     def __init__(self, path: str):

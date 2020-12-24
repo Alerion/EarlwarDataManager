@@ -4,6 +4,7 @@ import main.views.common
 
 urlpatterns = [
     path('edit/<path:path>/form', main.views.common.edit),
+    path('test', main.views.common.test),
 
     path('icon/<path:path>', main.views.filesystem.view_icon),
     path('add/file', main.views.filesystem.add),

@@ -3,10 +3,10 @@ import os
 
 from django.conf import settings
 from django.contrib import messages
+from django.http import JsonResponse
 from django.shortcuts import render
 
 from earlwar_data_manager.file.file import put_json, get_json
-from earlwar_data_manager.form.add import AddForm
 from earlwar_data_manager.form.edit import JsonForm
 from earlwar_data_manager.form.validator import Validator
 from earlwar_data_manager.path.path import get_root, get_relative_path
@@ -19,11 +19,7 @@ def index(request):
 
 
 def table(request, path: str):
-    return render(request, 'table.html', {
-        'title': path,
-        'data': json.dumps(Table(path).get()),
-        'add_form': AddForm(initial={'path': path})
-    })
+    return JsonResponse(Table(path).get())
 
 
 def edit(request, path: str):
@@ -50,3 +46,7 @@ def edit(request, path: str):
         'back': get_relative_path(os.path.dirname(path)),
         "error": error.split('\n', 1)}
     )
+
+
+def test(request):
+    return render(request, 'test.html')
