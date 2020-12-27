@@ -3,7 +3,7 @@ import main.views.filesystem
 import main.views.common
 
 urlpatterns = [
-    path('edit/<path:path>/form', main.views.common.edit),
+    path('edit', main.views.common.edit),
     path('test', main.views.common.test),
 
     path('icon/<path:path>', main.views.filesystem.view_icon),
@@ -13,6 +13,6 @@ urlpatterns = [
     path('delete/<path:path>', main.views.filesystem.delete),
     path('edit/<path:path>/<path:dependency>', main.views.filesystem.view),
 
-    path('', main.views.common.index, name='index'),
-    path('<path:path>', main.views.common.table),
+    path('tree', main.views.common.index, name='index'),
+    path('table', main.views.common.table),
 ]

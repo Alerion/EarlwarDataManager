@@ -1,5 +1,6 @@
 <template>
   <v-container>
+    <h2>{{ path }}</h2>
     <template>
       <v-data-table
           :headers="headers"
@@ -11,7 +12,7 @@
         <template v-slot:item.Icon="{ item }">
           <v-img
               max-width="60"
-              v-bind:src=getPath(item.Icon)
+              v-bind:src=getIcon(item.Icon)
           ></v-img>
         </template>
       </v-data-table>
@@ -20,13 +21,12 @@
 </template>
 
 <script>
-  import axios from 'axios'
+  import Api from '@/api/api'
+  import ApiComponent from "@/components/ApiComponent";
 
   export default {
+    extends: ApiComponent,
     name: "Table",
-    props: {
-      path: String,
-    },
     data() {
       return {
         headers: [],
@@ -35,21 +35,20 @@
     },
     methods: {
       handleClick(item) {
-        console.log(item)
+        console.log(item);
       },
-      getPath (path) {
-        return process.env.VUE_APP_BACKEND_API + 'icon/' + path;
+      updateData() {
+        Api.table({'path': this.path})
+          .then(
+            response => {
+              this.units = response.data.data;
+              this.headers = response.data.columns;
+            }
+          )
       },
-    },
-    mounted() {
-      axios
-        .get(process.env.VUE_APP_BACKEND_API + this.path)
-        .then(
-          response => {
-            this.units = response.data.data
-            this.headers = response.data.columns
-          }
-        )
+      getIcon(path) {
+        return Api.iconUrl(path);
+      },
     }
   }
 </script>

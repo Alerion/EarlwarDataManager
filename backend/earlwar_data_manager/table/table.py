@@ -7,7 +7,7 @@ from earlwar_data_manager.path.path import get_root
 class Table:
 
     SETTINGS_FIELDS = [
-        {'value': 'Error', 'text': 'Error', 'visible': False},
+        {'value': 'Error', 'text': 'Error', 'visible': False, "align": "start"},
     ]
 
     def __init__(self, path: str):
@@ -19,7 +19,7 @@ class Table:
         try:
             data = get_json(file['href'])
             data['Path'] = file['href']
-            data['Filename'] = file['text']
+            data['Filename'] = file['name']
         except Exception as err:
             data = {'Error': file['href'] + ' ' + format(err)}
         self.result.append(data)
@@ -28,4 +28,4 @@ class Table:
         for file in self.files:
             self.prepare(file)
 
-        return {'columns': self.fields, 'data': self.result, 'showColumns': True, 'buttons': 'buttons'}
+        return {'columns': self.fields, 'data': self.result}

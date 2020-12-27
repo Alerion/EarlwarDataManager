@@ -11,6 +11,7 @@
     "@koumoul/vjsf": "^1.17.1",
     "@koumoul/vuetify-jsonschema-form": "^0.36.4",
     "bootstrap4": "0.0.1-security",
+    "build-url": "^6.0.1",
     "core-js": "^3.6.5",
     "vfg-field-array": "0.0.4",
     "vfg-field-object": "0.0.4",

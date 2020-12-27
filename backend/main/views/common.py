@@ -15,14 +15,15 @@ from earlwar_data_manager.tree.tree import Tree
 
 
 def index(request):
-    return render(request, 'tree.html', {'title': 'Tree view', 'data': json.dumps(Tree().get())})
+    return JsonResponse({'items': Tree().get()})
 
 
-def table(request, path: str):
-    return JsonResponse(Table(path).get())
+def table(request):
+    return JsonResponse(Table(request.GET.get('path')).get())
 
 
-def edit(request, path: str):
+def edit(request):
+    path = request.GET.get('path')
     schema_type = settings.TYPES[get_root(path)]
 
     error = ""
@@ -37,15 +38,7 @@ def edit(request, path: str):
             error = format(err)
     else:
         data = get_json(path)
-
-    form = JsonForm(schema_type, initial={'json': data})
-    print(form.media)
-    return render(request, 'form.html', {
-        'form': form,
-        'title': path,
-        'back': get_relative_path(os.path.dirname(path)),
-        "error": error.split('\n', 1)}
-    )
+    return JsonResponse(data)
 
 
 def test(request):

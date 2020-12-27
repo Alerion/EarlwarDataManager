@@ -2,7 +2,7 @@ import os
 
 
 def get_root(path: str):
-    split = path.split('/')
+    split = path.split(os.sep)
     return split[1] if split[0] == '' else split[0]
 
 

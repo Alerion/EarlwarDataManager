@@ -1,20 +1,20 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Units from '../views/Units.vue'
-import Abilities from '../views/Abilities.vue'
+import Edit from '../views/Edit.vue'
+import Folder from "@/views/Folder";
 
 Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/',
-    name: 'Units',
-    component: Units
+    path: '/folder/:path',
+    name: 'Folder',
+    component: Folder
   },
   {
-    path: '/abilities',
-    name: 'Abilities',
-    component: Abilities
+    path: '/edit/:path',
+    name: 'Edit',
+    component: Edit
   }
 ]
 
