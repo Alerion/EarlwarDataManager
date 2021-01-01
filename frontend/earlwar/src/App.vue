@@ -13,7 +13,7 @@
       <v-toolbar-title>Earlvar data manager</v-toolbar-title>
     </v-app-bar>
 
-    <v-main>
+    <v-main class="ml-10">
       <router-view></router-view>
     </v-main>
   </v-app>
