@@ -19,10 +19,10 @@
 </template>
 
 <script>
-  import Field from "@/components/fields/common/Field";
+  import BaseField from "@/components/fields/common/BaseField";
 
   export default {
-    extends: Field,
+    extends: BaseField,
     name: 'MagicalResistance'
   };
 </script>

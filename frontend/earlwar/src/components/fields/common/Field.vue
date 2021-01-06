@@ -1,45 +1,53 @@
+<template>
+  <validation-provider
+      v-slot="{ errors }"
+      :vid="vid"
+      :name="name"
+      :rules="rules"
+      ref="validation"
+  >
+    <v-text-field
+        v-bind="$attrs"
+        v-model="internalValue"
+        :label="label"
+        :type="type"
+        :error-messages="errors"
+        :disabled="isDisabled"
+    >
+    </v-text-field>
+  </validation-provider>
+</template>
+
 <script>
+  import BaseField from "@/components/fields/common/BaseField";
+
   export default {
+    extends: BaseField,
     name: 'Field',
     props: {
-      value: Number,
+      value: null,
       item: {},
+      vid: String,
+      name: String,
+      rules: String,
+      label: String,
+      type: {
+        type: String,
+        default: "text",
+      },
+      disabled: {
+        type: Boolean,
+        default: false,
+      },
       required: {
         type: Boolean,
         default: false,
       },
     },
-
-    data() {
-      return {
-        lazyValue: this.value,
-      };
-    },
-
-    watch: {
-      value(val) {
-        this.lazyValue = val;
-      },
-    },
     methods: {
-      type: function (val) {
-        return Number(val)
-      }
-    },
-    computed: {
-      internalValue: {
-        get() {
-          return this.lazyValue;
-        },
-        async set(val) {
-          this.lazyValue = val;
-          const result = await this.$refs.validation.validate(val);
-          console.log(result.valid)
-          if (result.valid) {
-            this.$emit('input', this.type(val));
-          }
-        },
+      disableCondition() {
+        return this.disabled
       },
-    },
+    }
   };
 </script>

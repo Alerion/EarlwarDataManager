@@ -5,7 +5,7 @@
         ref="observer"
         v-slot="{ invalid }"
     >
-      <v-form v-model="valid"
+      <v-form
               @submit.prevent="submit"
       >
         <v-card
@@ -71,22 +71,15 @@
         >
           <v-card-title>Invasion</v-card-title>
           <v-card-text>
-            <v-row>
-              <v-col
-                  cols="12"
-                  md="4"
-              >
+            <three-col-row>
+              <template v-slot:1-col>
                 <v-checkbox
                     v-model="item.CanJoinInvasion"
                     label="Can Join Invasion?"
                     required
                 ></v-checkbox>
-              </v-col>
-
-              <v-col
-                  cols="12"
-                  md="4"
-              >
+              </template>
+              <template v-slot:2-col>
                 <validation-provider
                     v-slot="{ errors }"
                     vid="SquadWeight"
@@ -103,14 +96,8 @@
                       :error-messages="errors"
                   ></v-text-field>
                 </validation-provider>
-              </v-col>
-
-              <v-col
-                  cols="12"
-                  md="4"
-              >
-              </v-col>
-            </v-row>
+              </template>
+            </three-col-row>
           </v-card-text>
         </v-card>
 
@@ -120,25 +107,21 @@
         >
           <v-card-title>Defence</v-card-title>
           <v-card-text>
-            0 {{item.MaxHealth}}
-            1 {{item.AttackBlockChance}}
-            2 {{item.AbilityBlockChance}}
-            3 {{item.BlockEfficiency}}
             <three-col-row>
               <template v-slot:1-col>
                 <max-h-p
                     required
-                    :value="item.MaxHealth"
+                    v-model="item.MaxHealth"
                 ></max-h-p>
               </template>
               <template v-slot:2-col>
                 <h-p-regen
-                    :value="item.HealthRegenPercent"
+                    v-model="item.HealthRegenPercent"
                 ></h-p-regen>
               </template>
               <template v-slot:3-col>
                 <move-speed
-                    :value="item.MoveSpeed"
+                    v-model="item.MoveSpeed"
                     :item="item"
                 ></move-speed>
               </template>
@@ -146,17 +129,17 @@
             <three-col-row>
               <template v-slot:1-col>
                 <physical-resistance
-                    :value="item.ResistancePhysical"
+                    v-model="item.ResistancePhysical"
                 ></physical-resistance>
               </template>
               <template v-slot:2-col>
                 <magical-resistance
-                    :value="item.ResistanceMagic"
+                    v-model="item.ResistanceMagic"
                 ></magical-resistance>
               </template>
               <template v-slot:3-col>
                 <chaotic-resistance
-                    :value="item.ResistanceChaos"
+                    v-model="item.ResistanceChaos"
                 ></chaotic-resistance>
               </template>
             </three-col-row>
@@ -165,9 +148,9 @@
               <template v-slot:header>Blocks</template>
               <template v-slot:content>
                 <three-col-row>
-                  <template v-slot:1-col><attack-block :value="item.AttackBlockChance"></attack-block></template>
-                  <template v-slot:2-col><ability-block :value="item.AbilityBlockChance"></ability-block></template>
-                  <template v-slot:3-col><block-efficiency :value="item.BlockEfficiency"></block-efficiency></template>
+                  <template v-slot:1-col><attack-block v-model="item.AttackBlockChance"></attack-block></template>
+                  <template v-slot:2-col><ability-block v-model="item.AbilityBlockChance"></ability-block></template>
+                  <template v-slot:3-col><block-efficiency v-model="item.BlockEfficiency"></block-efficiency></template>
                 </three-col-row>
               </template>
             </optional-panel>
@@ -180,6 +163,35 @@
         >
           <v-card-title>Attack</v-card-title>
           <v-card-text>
+            <three-col-row>
+              <template v-slot:1-col>
+                <attack-type
+                    v-model="item.AttackType"
+                    :item="item"
+                ></attack-type>
+              </template>
+              <template v-slot:2-col>
+                <attack-damage-type
+                    v-model="item.AttackDamageType"
+                    :item="item"
+                ></attack-damage-type>
+              </template>
+              <template v-slot:3-col>
+                <attack-range
+                    v-model="item.AttackRange"
+                    :item="item"
+                ></attack-range>
+              </template>
+            </three-col-row>
+            <three-col-row>
+              <template v-slot:1-col>
+                <attack-damage v-model="item" :item="item"></attack-damage>
+              </template>
+              <template v-slot:2-col>
+              </template>
+              <template v-slot:3-col>
+              </template>
+            </three-col-row>
           </v-card-text>
         </v-card>
 
@@ -223,9 +235,17 @@
   import AttackBlock from "@/components/fields/defence/AttackBlock";
   import AbilityBlock from "@/components/fields/defence/AbilityBlock";
   import BlockEfficiency from "@/components/fields/defence/BlockEfficiency";
+  import AttackType from "@/components/fields/attack/AttackType";
+  import AttackDamageType from "@/components/fields/attack/AttackDamageType";
+  import AttackRange from "@/components/fields/attack/AttackRange";
+  import AttackDamage from "@/components/fields/attack/AttackDamage";
 
   export default {
     components: {
+      AttackDamage,
+      AttackRange,
+      AttackDamageType,
+      AttackType,
       ThreeColRow,
       OptionalPanel,
       MaxHP,

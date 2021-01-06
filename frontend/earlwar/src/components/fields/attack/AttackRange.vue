@@ -1,17 +1,16 @@
 <template>
   <validation-provider
       v-slot="{ errors }"
-      vid="MoveSpeed"
-      name="MoveSpeed"
-      rules="required"
+      vid="AttackRange"
+      name="AttackRange"
       ref="validation"
   >
     <v-select
-        label="Move speed"
+        label="Range"
         v-model="internalValue"
-        :disabled="isDisabled"
-        :items="speed"
+        :items="ranges"
         :error-messages="errors"
+        :disabled="isDisabled"
     ></v-select>
   </validation-provider>
 </template>
@@ -21,7 +20,7 @@
 
   export default {
     extends: BaseField,
-    name: 'MoveSpeed',
+    name: 'AttackRange',
     props: {
       value: String,
       item: {},
@@ -30,18 +29,19 @@
         default: false,
       },
     },
+
     methods: {
-      convertType: function (val) {
+      convertType(val) {
         return String(val)
       },
       disableCondition() {
-        return this.item.isTower;
+        return this.item.AttackType === 'None' || this.item.AttackType === 'Melee';
       }
     },
     data() {
       return {
         lazyValue: this.value,
-        speed: ["None", "Slow", "Normal", "Fast"],
+        ranges: ["Close", "Middle", "Far"],
       };
     },
 

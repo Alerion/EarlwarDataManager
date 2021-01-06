@@ -1,30 +1,25 @@
 <template>
   <validation-provider
       v-slot="{ errors }"
-      vid="HPRegen"
-      name="HPRegen"
-      rules="min_value:0|max_value:100"
+      vid="AttackSpeed"
+      name="AttackSpeed"
       ref="validation"
   >
     <v-text-field
         v-model="internalValue"
-        label="HP Regen"
-        default="1"
+        label="Attack Speed"
+        default="0"
         type="number"
         step="1"
         :error-messages="errors"
+        :disabled="isDisabled"
     >
       <template v-slot:prepend>
-        <v-tooltip
-            top
-        >
-          <template v-slot:activator="{ on }">
-            <v-icon v-on="on">
-              mdi-percent
-            </v-icon>
-          </template>
-          Regeneration percent 1 - 100 value
-        </v-tooltip>
+        <template v-slot:activator="{ on }">
+            <span v-on="on">
+              attack/S
+            </span>
+        </template>
       </template>
     </v-text-field>
   </validation-provider>
@@ -35,6 +30,11 @@
 
   export default {
     extends: BaseField,
-    name: 'HPRegen'
+    name: 'AttackSpeed',
+    methods: {
+      disableCondition() {
+        return this.item.AttackType === 'None';
+      }
+    },
   };
 </script>
