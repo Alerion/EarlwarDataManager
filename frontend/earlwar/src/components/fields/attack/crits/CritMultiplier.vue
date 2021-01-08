@@ -1,17 +1,18 @@
 <template>
   <validation-provider
       v-slot="{ errors }"
-      vid="AbilityBlock"
-      name="AbilityBlock"
-      rules="min_value:0|max_value:100"
+      vid="CritMultiplier"
+      name="CritMultiplier"
+      rules="min_value:1"
       ref="validation"
   >
     <v-text-field
         v-model="internalValue"
-        label="Ability Block"
-        default="0"
+        label="Crit Multiplier"
+        default="1"
         type="number"
-        step="1"
+        step="0.1"
+        required
         :error-messages="errors"
     >
       <template v-slot:prepend>
@@ -20,10 +21,10 @@
         >
           <template v-slot:activator="{ on }">
             <v-icon v-on="on">
-              mdi-percent
+              mdi-multiplication
             </v-icon>
           </template>
-          Ability block probability in percent 1 - 100 value
+          It's multiplier for the value of Crit Attack
         </v-tooltip>
       </template>
     </v-text-field>
@@ -35,6 +36,6 @@
 
   export default {
     extends: BaseField,
-    name: 'AbilityBlock'
+    name: 'CritMultiplier'
   };
 </script>

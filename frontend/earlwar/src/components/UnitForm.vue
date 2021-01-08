@@ -6,7 +6,7 @@
         v-slot="{ invalid }"
     >
       <v-form
-              @submit.prevent="submit"
+          @submit.prevent="submit"
       >
         <v-card
             class="mt-10"
@@ -148,9 +148,15 @@
               <template v-slot:header>Blocks</template>
               <template v-slot:content>
                 <three-col-row>
-                  <template v-slot:1-col><attack-block v-model="item.AttackBlockChance"></attack-block></template>
-                  <template v-slot:2-col><ability-block v-model="item.AbilityBlockChance"></ability-block></template>
-                  <template v-slot:3-col><block-efficiency v-model="item.BlockEfficiency"></block-efficiency></template>
+                  <template v-slot:1-col>
+                    <attack-block v-model="item.AttackBlockChance"></attack-block>
+                  </template>
+                  <template v-slot:2-col>
+                    <ability-block v-model="item.AbilityBlockChance"></ability-block>
+                  </template>
+                  <template v-slot:3-col>
+                    <block-efficiency v-model="item.BlockEfficiency"></block-efficiency>
+                  </template>
                 </three-col-row>
               </template>
             </optional-panel>
@@ -192,6 +198,39 @@
               <template v-slot:3-col>
               </template>
             </three-col-row>
+            <optional-panel
+                :active="!!item.CritChance || !!item.CritMultiplier">
+              <template v-slot:header>Has crits</template>
+              <template v-slot:content>
+                <three-col-row>
+                  <template v-slot:1-col>
+                    <crit-chance v-model="item.CritChance"></crit-chance>
+                  </template>
+                  <template v-slot:2-col>
+                    <crit-multiplier v-model="item.CritMultiplier"></crit-multiplier>
+                  </template>
+                </three-col-row>
+              </template>
+            </optional-panel>
+            <optional-panel
+                :active="hasAOE"
+                class="mt-5"
+            >
+              <template v-slot:header>AOE</template>
+              <template v-slot:content>
+                <three-col-row>
+                  <template v-slot:1-col>
+                    <a-o-e-radius v-model="item.AttackAOE.Radius"></a-o-e-radius>
+                  </template>
+                  <template v-slot:2-col>
+                    <a-o-e-damage-type v-model="item.AttackAOE.DamageType"></a-o-e-damage-type>
+                  </template>
+                  <template v-slot:3-col>
+                    <a-o-e-damage v-model="item.AttackAOE" :item="item.AttackAOE"></a-o-e-damage>
+                  </template>
+                </three-col-row>
+              </template>
+            </optional-panel>
           </v-card-text>
         </v-card>
 
@@ -201,6 +240,11 @@
         >
           <v-card-title>Penetration</v-card-title>
           <v-card-text>
+            <three-col-row>
+              <template v-slot:1-col></template>
+              <template v-slot:2-col></template>
+              <template v-slot:3-col></template>
+            </three-col-row>
           </v-card-text>
         </v-card>
 
@@ -232,16 +276,26 @@
   import PhysicalResistance from "@/components/fields/defence/PhysicalResistance";
   import MagicalResistance from "@/components/fields/defence/MagicalResistance";
   import ChaoticResistance from "@/components/fields/defence/ChaoticResistance";
-  import AttackBlock from "@/components/fields/defence/AttackBlock";
-  import AbilityBlock from "@/components/fields/defence/AbilityBlock";
-  import BlockEfficiency from "@/components/fields/defence/BlockEfficiency";
+  import AttackBlock from "@/components/fields/defence/blocks/AttackBlock";
+  import AbilityBlock from "@/components/fields/defence/blocks/AbilityBlock";
+  import BlockEfficiency from "@/components/fields/defence/blocks/BlockEfficiency";
   import AttackType from "@/components/fields/attack/AttackType";
   import AttackDamageType from "@/components/fields/attack/AttackDamageType";
   import AttackRange from "@/components/fields/attack/AttackRange";
   import AttackDamage from "@/components/fields/attack/AttackDamage";
+  import CritChance from "@/components/fields/attack/crits/CritChance";
+  import CritMultiplier from "@/components/fields/attack/crits/CritMultiplier";
+  import AOEDamage from "@/components/fields/attack/aoe/AOEDamage";
+  import AOERadius from "@/components/fields/attack/aoe/AOERadius";
+  import AOEDamageType from "@/components/fields/attack/aoe/AOEDamageType";
 
   export default {
     components: {
+      AOEDamageType,
+      AOERadius,
+      AOEDamage,
+      CritMultiplier,
+      CritChance,
       AttackDamage,
       AttackRange,
       AttackDamageType,
@@ -261,11 +315,20 @@
     extends: ApiComponent,
     name: "UnitForm",
     data: function () {
+      const data = this.getDefaultData();
       return {
-        item: {
-          IsTower: false,
-        },
+        item: data,
         classes: ["Defender", "Warrior", "Assassin", "Archer", "Mage", "Siege", "Support", "Healer", "Summoner"]
+      }
+    },
+    watch: {
+      item(data) {
+        this.updateDataFromItem(this.item, data);
+      }
+    },
+    computed: {
+      hasAOE() {
+        return Object.keys(this.item.AttackAOE).length !== 0 || this.item.AttackAOE.constructor !== Object
       }
     },
     methods: {
@@ -273,9 +336,45 @@
         Api.item({'path': this.path})
           .then(
             response => {
-              this.item = response.data;
+              this.updateDataFromItem(this.item, response.data);
             }
           )
+      },
+      updateDataFromItem(item, data) {
+        if (data) {
+          const itemCopy = JSON.parse(JSON.stringify(data));
+          Object.keys(item).forEach((key) => {
+            item[key] = typeof itemCopy[key] !== "undefined" ? itemCopy[key] : item[key];
+          });
+        }
+      },
+      getDefaultData() {
+        return {
+          Version: null,
+          Id: null,
+          Name: null,
+          Class: null,
+          Description: null,
+          CanJoinInvasion: true,
+          MaxHealth: 0,
+          ResistancePhysical: 0,
+          ResistanceMagic: 0,
+          ResistanceChaos: 0,
+          AttackType: null,
+          AttackDamageType: null,
+          AttackRange: null,
+          AttackBlockChance: null,
+          AbilityBlockChance: null,
+          BlockEfficiency: null,
+          DamageMin: null,
+          DamageMax: null,
+          CritChance: null,
+          CritMultiplier: null,
+          AttackSpeed: null,
+          AttackAOE: {},
+          Abilities: [],
+          Upgrades: [],
+        };
       },
     }
   }

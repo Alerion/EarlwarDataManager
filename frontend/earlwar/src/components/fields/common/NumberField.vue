@@ -9,12 +9,14 @@
     <v-text-field
         v-bind="$attrs"
         v-model="internalValue"
+        type="number"
+        step="1"
         :label="label"
-        :type="type"
         :error-messages="errors"
         :disabled="isDisabled"
     >
     </v-text-field>
+    <slot name="icons"></slot>
   </validation-provider>
 </template>
 
@@ -23,18 +25,14 @@
 
   export default {
     extends: BaseField,
-    name: 'Field',
+    name: 'NumberField',
     props: {
-      value: null,
+      value: Number,
       item: {},
       vid: String,
       name: String,
-      rules: String,
       label: String,
-      type: {
-        type: String,
-        default: "text",
-      },
+      rules: String,
       disabled: {
         type: Boolean,
         default: false,

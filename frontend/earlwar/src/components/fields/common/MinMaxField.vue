@@ -6,15 +6,14 @@
           cols="12"
           md="5"
       >
-        <field
+        <number-field
             v-model="item[minField]"
             v-bind="$attrs"
             vid="Min"
             name="Min"
             label="Min"
-            type="number"
-            :rules="$attrs.rules + '|max_value:'+item[maxField]"
-        ></field>
+            :rules="minRules"
+        ></number-field>
       </v-col>
       <v-col
           cols="12"
@@ -27,22 +26,21 @@
           cols="12"
           md="5"
       >
-        <field
+        <number-field
             v-model="item[maxField]"
             v-bind="$attrs"
             vid="Max"
             name="Max"
             label="Max"
-            type="number"
-            :rules="$attrs.rules + '|min_value:'+item[minField]"
-        ></field>
+            :rules="maxRules"
+        ></number-field>
       </v-col>
     </v-row>
   </div>
 </template>
 
 <script>
-  import Field from "@/components/fields/common/Field";
+  import NumberField from "@/components/fields/common/NumberField";
 
   export default {
     props: {
@@ -56,6 +54,28 @@
       },
     },
     name: "MinMaxField",
-    components: {Field}
+    components: {NumberField},
+    computed: {
+      minRules() {
+        if (this.item[this.maxField] == null) {
+          return;
+        }
+        return this.rules(`max_value:${this.item[this.maxField]}`)
+      },
+      maxRules() {
+        if (this.item[this.minField] == null) {
+          return;
+        }
+        return this.rules(`min_value:${this.item[this.minField]}`)
+      },
+    },
+    methods: {
+      rules(rules) {
+        if (typeof this.$attrs.rules === String) {
+          return `${this.$attrs.rules}|${rules}`;
+        }
+        return rules;
+      }
+    }
   }
 </script>

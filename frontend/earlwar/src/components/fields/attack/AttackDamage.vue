@@ -5,7 +5,6 @@
     max-field="DamageMax"
     :item="item"
     :disabled="disabledCondition"
-    rules="min_value:0"
     step="0.1"
   ></min-max-field>
 </template>

@@ -1,25 +1,30 @@
 <template>
   <validation-provider
       v-slot="{ errors }"
-      vid="AttackSpeed"
-      name="AttackSpeed"
+      vid="AbilityBlock"
+      name="AbilityBlock"
+      rules="min_value:0|max_value:100"
       ref="validation"
   >
     <v-text-field
         v-model="internalValue"
-        label="Attack Speed"
+        label="Ability Block"
         default="0"
         type="number"
         step="1"
         :error-messages="errors"
-        :disabled="isDisabled"
     >
       <template v-slot:prepend>
-        <template v-slot:activator="{ on }">
-            <span v-on="on">
-              attack/S
-            </span>
-        </template>
+        <v-tooltip
+            top
+        >
+          <template v-slot:activator="{ on }">
+            <v-icon v-on="on">
+              mdi-percent
+            </v-icon>
+          </template>
+          Ability block probability in percent 1 - 100 value
+        </v-tooltip>
       </template>
     </v-text-field>
   </validation-provider>
@@ -30,11 +35,6 @@
 
   export default {
     extends: Field,
-    name: 'AttackSpeed',
-    methods: {
-      disableCondition() {
-        return this.item.AttackType === 'None';
-      }
-    },
+    name: 'AbilityBlock'
   };
 </script>

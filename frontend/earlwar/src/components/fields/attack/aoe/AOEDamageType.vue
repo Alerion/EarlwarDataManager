@@ -1,8 +1,8 @@
 <template>
   <validation-provider
       v-slot="{ errors }"
-      vid="AttackDamageType"
-      name="AttackDamageType"
+      vid="AOEDamageType"
+      name="AOEDamageType"
       ref="validation"
   >
     <v-select
@@ -20,7 +20,7 @@
 
   export default {
     extends: BaseField,
-    name: 'AttackDamageType',
+    name: 'AOEDamageType',
     props: {
       value: String,
       item: {},
@@ -33,9 +33,6 @@
     methods: {
       convertType(val) {
         return String(val)
-      },
-      disableCondition() {
-        return this.item.AttackType === 'None';
       }
     },
     data() {
