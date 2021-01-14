@@ -1,15 +1,15 @@
 <template v-if="type='Unit'">
-  <unit-form :path="path"></unit-form>
+  <editor :path="path"></editor>
 </template>
 
 <script>
   // @ is an alias to /src
-  import UnitForm from '@/components/UnitForm.vue'
+  import Editor from "@/components/Editor";
 
   export default {
     name: 'Form',
     components: {
-      UnitForm
+      Editor
     },
     computed: {
       path: function () {
@@ -18,6 +18,6 @@
       type: function () {
         return this.$route.params.type
       },
-    }
+    },
   }
 </script>

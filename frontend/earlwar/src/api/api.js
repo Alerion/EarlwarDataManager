@@ -20,6 +20,12 @@ class Api {
     });
   }
 
+  iconUrl(path) {
+    return buildUrl(this.basePath, {
+      path: `icon/${path}`
+    })
+  }
+
   itemUrl(queryParams) {
     return buildUrl(this.basePath, {
       path: 'edit',
@@ -27,10 +33,14 @@ class Api {
     });
   }
 
-  iconUrl(path) {
+  abilitiesUrl() {
+    const queryParams = {
+      path: 'Abilities',
+    }
     return buildUrl(this.basePath, {
-      path: `icon/${path}`
-    })
+      path: 'list',
+      queryParams,
+    });
   }
 
   table(queryParams) {
@@ -43,6 +53,10 @@ class Api {
 
   item(queryParams) {
     return axios.get(this.itemUrl(queryParams));
+  }
+
+  abilities() {
+    return axios.get(this.abilitiesUrl());
   }
 }
 

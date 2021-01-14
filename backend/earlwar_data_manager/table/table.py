@@ -15,17 +15,18 @@ class Table:
         self.result = []
         self.fields = settings.FIELDS[get_root(path)] + self.SETTINGS_FIELDS
 
-    def prepare(self, file):
-        try:
-            data = get_json(file['href'])
-            data['Path'] = file['href']
-            data['Filename'] = file['name']
-        except Exception as err:
-            data = {'Error': file['href'] + ' ' + format(err)}
-        self.result.append(data)
+    def prepare(self):
+        for file in self.files:
+            try:
+                data = get_json(file['href'])
+                data['Path'] = file['href']
+                data['Filename'] = file['name']
+            except Exception as err:
+                data = {'Error': file['href'] + ' ' + format(err)}
+            self.result.append(data)
 
     def get(self):
-        for file in self.files:
-            self.prepare(file)
+        self.prepare()
 
         return {'columns': self.fields, 'data': self.result}
+

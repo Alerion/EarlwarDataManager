@@ -15,8 +15,10 @@
         :error-messages="errors"
         :disabled="isDisabled"
     >
+      <template v-slot:prepend>
+        <slot name="icons"></slot>
+      </template>
     </v-text-field>
-    <slot name="icons"></slot>
   </validation-provider>
 </template>
 

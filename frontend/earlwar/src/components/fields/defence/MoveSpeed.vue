@@ -3,7 +3,7 @@
       v-slot="{ errors }"
       vid="MoveSpeed"
       name="MoveSpeed"
-      rules="required"
+      rules="{'required':!isDisabled}"
       ref="validation"
   >
     <v-select
@@ -35,7 +35,7 @@
         return String(val)
       },
       disableCondition() {
-        return this.item.isTower;
+        return this.item.IsTower;
       }
     },
     data() {

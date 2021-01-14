@@ -2,7 +2,7 @@
   <v-expansion-panels>
     <v-expansion-panel>
       <v-expansion-panel-header
-        :color="color"
+        :class="css"
       >
         <slot name="header"></slot>
       </v-expansion-panel-header>
@@ -23,8 +23,8 @@
       },
     },
     computed: {
-      color() {
-        return this.active ? 'success' : null
+      css() {
+        return this.active ? 'white--text teal darken-3' : null
       }
     }
   }

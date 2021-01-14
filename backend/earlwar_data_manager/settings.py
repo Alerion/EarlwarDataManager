@@ -119,7 +119,14 @@ USE_L10N = True
 USE_TZ = True
 
 
-FIELDS = {'Units': [
+FIELDS = {'Towers': [
+    {'value': 'Id', 'text': 'Id', 'align': 'start'},
+    {'value': 'Name', 'text': 'Name'},
+    {'value': 'MaxHealth', 'text': 'Max Health', 'sortable': True},
+    {'value': 'AttackType', 'text': 'Attack Type'},
+    {'value': 'DamageMin', 'text': 'Damage Min', 'sortable': True},
+    {'value': 'DamageMax', 'text': 'Damage Max', 'sortable': True},
+],'Units': [
     {'value': 'Id', 'text': 'Id', 'align': 'start'},
     {'value': 'Name', 'text': 'Name'},
     {'value': 'MaxHealth', 'text': 'Max Health', 'sortable': True},
@@ -141,6 +148,7 @@ FIELDS = {'Units': [
 
 TYPES = {
     'Units': 'UnitData.json',
+    'Towers': 'UnitData.json',
     'Abilities': 'AbilityData.json',
 }
 

@@ -30,7 +30,7 @@
     data() {
       return {
         headers: [],
-        units: []
+        units: [],
       }
     },
     methods: {

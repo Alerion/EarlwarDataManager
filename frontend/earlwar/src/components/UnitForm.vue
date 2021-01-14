@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <h2>{{item.Name}}</h2>
+    <h2>{{data.Name}}</h2>
     <validation-observer
         ref="observer"
         v-slot="{ invalid }"
@@ -17,7 +17,7 @@
             <three-col-row>
               <template v-slot:1-col>
                 <v-text-field
-                    v-model="item.Version"
+                    v-model="data.Version"
                     label="Version"
                     value="0.1"
                     required
@@ -25,14 +25,14 @@
               </template>
               <template v-slot:2-col>
                 <v-text-field
-                    v-model="item.Id"
+                    v-model="data.Id"
                     label="Id"
                     required
                 ></v-text-field>
               </template>
               <template v-slot:3-col>
                 <v-text-field
-                    v-model="item.Name"
+                    v-model="data.Name"
                     label="Name"
                     required
                 ></v-text-field>
@@ -51,13 +51,13 @@
               <template v-slot:1-col>
                 <v-select
                     label="Class"
-                    v-model="item.Class"
+                    v-model="data.Class"
                     :items="classes"
                 ></v-select>
               </template>
               <template v-slot:2-col>
                 <v-checkbox
-                    v-model="item.IsTower"
+                    v-model="data.IsTower"
                     label="Is tower?"
                 ></v-checkbox>
               </template>
@@ -74,7 +74,7 @@
             <three-col-row>
               <template v-slot:1-col>
                 <v-checkbox
-                    v-model="item.CanJoinInvasion"
+                    v-model="data.CanJoinInvasion"
                     label="Can Join Invasion?"
                     required
                 ></v-checkbox>
@@ -87,7 +87,7 @@
                     rules="required|min_value:0.1"
                 >
                   <v-text-field
-                      v-model="item.SquadWeight"
+                      v-model="data.SquadWeight"
                       label="SquadWeight"
                       default="1"
                       type="number"
@@ -111,51 +111,51 @@
               <template v-slot:1-col>
                 <max-h-p
                     required
-                    v-model="item.MaxHealth"
+                    v-model="data.MaxHealth"
                 ></max-h-p>
               </template>
               <template v-slot:2-col>
                 <h-p-regen
-                    v-model="item.HealthRegenPercent"
+                    v-model="data.HealthRegenPercent"
                 ></h-p-regen>
               </template>
               <template v-slot:3-col>
                 <move-speed
-                    v-model="item.MoveSpeed"
-                    :item="item"
+                    v-model="data.MoveSpeed"
+                    :item="data"
                 ></move-speed>
               </template>
             </three-col-row>
             <three-col-row>
               <template v-slot:1-col>
                 <physical-resistance
-                    v-model="item.ResistancePhysical"
+                    v-model="data.ResistancePhysical"
                 ></physical-resistance>
               </template>
               <template v-slot:2-col>
                 <magical-resistance
-                    v-model="item.ResistanceMagic"
+                    v-model="data.ResistanceMagic"
                 ></magical-resistance>
               </template>
               <template v-slot:3-col>
                 <chaotic-resistance
-                    v-model="item.ResistanceChaos"
+                    v-model="data.ResistanceChaos"
                 ></chaotic-resistance>
               </template>
             </three-col-row>
             <optional-panel
-                :active="!!item.AttackBlockChance || !!item.AbilityBlockChance || !!item.BlockEfficiency">
+                :active="!!data.AttackBlockChance || !!data.AbilityBlockChance || !!data.BlockEfficiency">
               <template v-slot:header>Blocks</template>
               <template v-slot:content>
                 <three-col-row>
                   <template v-slot:1-col>
-                    <attack-block v-model="item.AttackBlockChance"></attack-block>
+                    <attack-block v-model="data.AttackBlockChance"></attack-block>
                   </template>
                   <template v-slot:2-col>
-                    <ability-block v-model="item.AbilityBlockChance"></ability-block>
+                    <ability-block v-model="data.AbilityBlockChance"></ability-block>
                   </template>
                   <template v-slot:3-col>
-                    <block-efficiency v-model="item.BlockEfficiency"></block-efficiency>
+                    <block-efficiency v-model="data.BlockEfficiency"></block-efficiency>
                   </template>
                 </three-col-row>
               </template>
@@ -172,26 +172,26 @@
             <three-col-row>
               <template v-slot:1-col>
                 <attack-type
-                    v-model="item.AttackType"
-                    :item="item"
+                    v-model="data.AttackType"
+                    :item="data"
                 ></attack-type>
               </template>
               <template v-slot:2-col>
                 <attack-damage-type
-                    v-model="item.AttackDamageType"
-                    :item="item"
+                    v-model="data.AttackDamageType"
+                    :item="data"
                 ></attack-damage-type>
               </template>
               <template v-slot:3-col>
                 <attack-range
-                    v-model="item.AttackRange"
-                    :item="item"
+                    v-model="data.AttackRange"
+                    :item="data"
                 ></attack-range>
               </template>
             </three-col-row>
             <three-col-row>
               <template v-slot:1-col>
-                <attack-damage v-model="item" :item="item"></attack-damage>
+                <attack-damage v-model="data" :item="data"></attack-damage>
               </template>
               <template v-slot:2-col>
               </template>
@@ -199,15 +199,15 @@
               </template>
             </three-col-row>
             <optional-panel
-                :active="!!item.CritChance || !!item.CritMultiplier">
+                :active="!!data.CritChance || !!data.CritMultiplier">
               <template v-slot:header>Has crits</template>
               <template v-slot:content>
                 <three-col-row>
                   <template v-slot:1-col>
-                    <crit-chance v-model="item.CritChance"></crit-chance>
+                    <crit-chance v-model="data.CritChance"></crit-chance>
                   </template>
                   <template v-slot:2-col>
-                    <crit-multiplier v-model="item.CritMultiplier"></crit-multiplier>
+                    <crit-multiplier v-model="data.CritMultiplier"></crit-multiplier>
                   </template>
                 </three-col-row>
               </template>
@@ -220,13 +220,13 @@
               <template v-slot:content>
                 <three-col-row>
                   <template v-slot:1-col>
-                    <a-o-e-radius v-model="item.AttackAOE.Radius"></a-o-e-radius>
+                    <a-o-e-radius v-model="data.AttackAOE.Radius"></a-o-e-radius>
                   </template>
                   <template v-slot:2-col>
-                    <a-o-e-damage-type v-model="item.AttackAOE.DamageType"></a-o-e-damage-type>
+                    <a-o-e-damage-type v-model="data.AttackAOE.DamageType"></a-o-e-damage-type>
                   </template>
                   <template v-slot:3-col>
-                    <a-o-e-damage v-model="item.AttackAOE" :item="item.AttackAOE"></a-o-e-damage>
+                    <a-o-e-damage v-model="data.AttackAOE" :item="data.AttackAOE"></a-o-e-damage>
                   </template>
                 </three-col-row>
               </template>
@@ -241,9 +241,15 @@
           <v-card-title>Penetration</v-card-title>
           <v-card-text>
             <three-col-row>
-              <template v-slot:1-col></template>
-              <template v-slot:2-col></template>
-              <template v-slot:3-col></template>
+              <template v-slot:1-col>
+                <penetration-physical :item="data"></penetration-physical>
+              </template>
+              <template v-slot:2-col>
+                <penetration-magic :item="data"></penetration-magic>
+              </template>
+              <template v-slot:3-col>
+                <penetration-chaos :item="data"></penetration-chaos>
+              </template>
             </three-col-row>
           </v-card-text>
         </v-card>
@@ -254,6 +260,7 @@
         >
           <v-card-title>Abilities</v-card-title>
           <v-card-text>
+            <ability-panel :abilities="data.Abilities"></ability-panel>
           </v-card-text>
         </v-card>
         <v-btn :disabled="invalid">Submit</v-btn>
@@ -264,7 +271,6 @@
 </template>
 
 <script>
-  import Api from '@/api/api'
   import ApiComponent from "@/components/ApiComponent";
 
   import ThreeColRow from "@/components/layout/ThreeColRow";
@@ -288,9 +294,17 @@
   import AOEDamage from "@/components/fields/attack/aoe/AOEDamage";
   import AOERadius from "@/components/fields/attack/aoe/AOERadius";
   import AOEDamageType from "@/components/fields/attack/aoe/AOEDamageType";
+  import PenetrationPhysical from "@/components/fields/penetration/PenetrationPhysical";
+  import PenetrationMagic from "@/components/fields/penetration/PenetrationMagic";
+  import PenetrationChaos from "@/components/fields/penetration/PenetrationChaos";
+  import AbilityPanel from "@/components/fields/abilities/AbilityPanel";
 
   export default {
     components: {
+      AbilityPanel,
+      PenetrationChaos,
+      PenetrationMagic,
+      PenetrationPhysical,
       AOEDamageType,
       AOERadius,
       AOEDamage,
@@ -314,37 +328,36 @@
     },
     extends: ApiComponent,
     name: "UnitForm",
-    data: function () {
+    props: {
+      item: Object,
+    },
+    data() {
       const data = this.getDefaultData();
       return {
-        item: data,
+        data: data,
         classes: ["Defender", "Warrior", "Assassin", "Archer", "Mage", "Siege", "Support", "Healer", "Summoner"]
       }
     },
     watch: {
-      item(data) {
-        this.updateDataFromItem(this.item, data);
-      }
+      item(item) {
+        this.updateDataFromItem(item, this.data);
+      },
     },
     computed: {
       hasAOE() {
-        return Object.keys(this.item.AttackAOE).length !== 0 || this.item.AttackAOE.constructor !== Object
+        return Object.keys(this.data.AttackAOE).length !== 0 || this.data.AttackAOE.constructor !== Object
       }
     },
     methods: {
-      updateData() {
-        Api.item({'path': this.path})
-          .then(
-            response => {
-              this.updateDataFromItem(this.item, response.data);
-            }
-          )
-      },
       updateDataFromItem(item, data) {
-        if (data) {
-          const itemCopy = JSON.parse(JSON.stringify(data));
-          Object.keys(item).forEach((key) => {
-            item[key] = typeof itemCopy[key] !== "undefined" ? itemCopy[key] : item[key];
+        if (item) {
+          const itemCopy = JSON.parse(JSON.stringify(item));
+          Object.keys(data).forEach((key) => {
+            if (typeof itemCopy[key] === "undefined" && this.getDefaultData()[key]) {
+              data[key] = this.getDefaultData()[key];
+            } else {
+              data[key] = itemCopy[key];
+            }
           });
         }
       },
@@ -355,17 +368,25 @@
           Name: null,
           Class: null,
           Description: null,
-          CanJoinInvasion: true,
-          MaxHealth: 0,
-          ResistancePhysical: 0,
-          ResistanceMagic: 0,
-          ResistanceChaos: 0,
+          IsTower: null,
+          CanJoinInvasion: null,
+          MaxHealth: null,
+          ResistancePhysical: null,
+          ResistanceMagic: null,
+          ResistanceChaos: null,
           AttackType: null,
           AttackDamageType: null,
           AttackRange: null,
           AttackBlockChance: null,
           AbilityBlockChance: null,
           BlockEfficiency: null,
+          AttackLifeGainOnHit: null,
+          PenetrationPhysical: null,
+          PenetrationPhysicalPercent: null,
+          PenetrationMagic: null,
+          PenetrationMagicPercent: null,
+          PenetrationChaos: null,
+          PenetrationChaosPercent: null,
           DamageMin: null,
           DamageMax: null,
           CritChance: null,
