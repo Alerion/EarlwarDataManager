@@ -1,8 +1,9 @@
 <template>
   <div>
-    <div v-for="ability in abilities" :key="ability.Id">
-      <ability :ability="ability" :available-abilities="availableAbilities"></ability>
+    <div v-for="(ability, index) in abilities" :key="ability.Id">
+      <ability v-model="abilities[index]" :available-abilities="availableAbilities"></ability>
     </div>
+    {{abilities}}
   </div>
 </template>
 
@@ -18,14 +19,16 @@
     },
     data: function () {
       return {
-        availableAbilities: {}
+        availableAbilities: {},
       }
     },
     mounted() {
       Api.abilities()
         .then(
           response => {
-            this.availableAbilities = response.data.data;
+            for (let item of response.data.data) {
+              this.availableAbilities[item.name.split('.')[0]] =  item.href;
+            }
           }
         )
     }

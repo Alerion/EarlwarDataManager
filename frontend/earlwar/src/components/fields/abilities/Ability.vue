@@ -29,17 +29,30 @@
               ></v-text-field>
             </v-col>
             <v-col md="9">
-              <v-row v-for="(value, name)  in ability.Parameters" :key="name">
-                <v-col md-5>{{name}}</v-col>
-                <v-col md-5>
+              <v-row v-for="(value, name)  in ability.Parameters" :key="name" align="center">
+                <v-col md="5">
+                  <v-select
+                      label="Parameters"
+                      :items="parameters"
+                      :value="name"
+                  ></v-select>
+                </v-col>
+                <v-col md="5">
                   <v-text-field
-                    v-model="ability.Parameters[name]"
+                      v-model="ability.Parameters[name]"
                   ></v-text-field>
+                </v-col>
+                <v-col md="2">
+                  <v-icon
+                      @click="removeField(name)"
+                      color="error"
+                  >mdi-trash-can-outline
+                  </v-icon>
                 </v-col>
               </v-row>
             </v-col>
           </v-row>
-          {{ability}}
+          {{value}}
         </v-card-text>
       </div>
     </v-expand-transition>
@@ -47,18 +60,39 @@
 </template>
 
 <script>
+  import Api from "@/api/api"
+
   export default {
     name: "Ability",
     props: {
-      ability: Object,
-      availableAbilities: Array
+      value: Object,
+      availableAbilities: Object,
     },
-    data: () => ({
-      show: true,
-    })
+    methods: {
+      getValue() {
+        return this.ability;
+      },
+      removeField(name) {
+        delete this.ability.Parameters[name];
+        this.$emit('input', this.getValue());
+        console.log(this.ability);
+      }
+    },
+    data() {
+      console.log(this.value);
+      return {
+        parameters: [],
+        ability: this.value,
+        show: true,
+      }
+    },
+    mounted() {
+      Api.item({'path': this.availableAbilities[this.ability.Id]})
+        .then(
+          response => {
+            this.parameters = Object.keys(response.data.AbilitySpecial);
+          }
+        )
+    }
   }
 </script>
-
-<style scoped>
-
-</style>
