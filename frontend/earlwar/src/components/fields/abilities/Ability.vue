@@ -52,7 +52,6 @@
               </v-row>
             </v-col>
           </v-row>
-          {{value}}
         </v-card-text>
       </div>
     </v-expand-transition>
@@ -74,12 +73,11 @@
       },
       removeField(name) {
         delete this.ability.Parameters[name];
+        this.ability = Object.assign({}, this.ability)
         this.$emit('input', this.getValue());
-        console.log(this.ability);
       }
     },
     data() {
-      console.log(this.value);
       return {
         parameters: [],
         ability: this.value,
