@@ -2,6 +2,7 @@
   <div>
     <div v-for="(ability, index) in abilities" :key="ability.Id">
       <ability v-model="abilities[index]" :available-abilities="availableAbilities"></ability>
+      {{abilities[index]}}
     </div>
   </div>
 </template>
