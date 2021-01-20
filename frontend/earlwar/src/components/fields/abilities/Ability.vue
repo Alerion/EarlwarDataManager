@@ -29,18 +29,32 @@
             <v-col md="9">
               <v-row v-for="(parameter, index)  in ability.unpackedParameters" :key="index" align="center">
                 <v-col md="5">
-                  <v-select
-                      label="Parameters"
-                      :items="availableParameters"
-                      v-model="ability.unpackedParameters[index].name"
-                      @input="onChange(index, $event)"
-                  ></v-select>
+                  <validation-provider
+                      v-slot="{ errors }"
+                      ref="validation"
+                      rules="required"
+                  >
+                    <v-select
+                        label="Parameters"
+                        :items="availableParameters"
+                        v-model="ability.unpackedParameters[index].name"
+                        @input="onChange(index, $event)"
+                        :error-messages="errors"
+                    ></v-select>
+                  </validation-provider>
                 </v-col>
                 <v-col md="5">
-                  <v-text-field
-                      v-model="ability.unpackedParameters[index].value"
-                      @input="onInput(index, $event)"
-                  ></v-text-field>
+                  <validation-provider
+                      v-slot="{ errors }"
+                      ref="validation"
+                      rules="required"
+                  >
+                    <v-text-field
+                        v-model="ability.unpackedParameters[index].value"
+                        @input="onInput(index, $event)"
+                        :error-messages="errors"
+                    ></v-text-field>
+                  </validation-provider>
                 </v-col>
                 <v-col md="2">
                   <v-icon
@@ -54,6 +68,17 @@
             </v-col>
           </v-row>
         </v-card-text>
+        <v-card-actions>
+          <v-btn
+              color="info"
+              text
+              small
+              @click="addField()"
+          >
+            <v-icon small class="mr-1">mdi-plus</v-icon>
+            Add another
+          </v-btn>
+        </v-card-actions>
       </div>
     </v-expand-transition>
   </v-card>
@@ -68,7 +93,23 @@
       value: Object,
       availableAbilities: Object,
     },
+    watch: {
+      parametersInUse: function () {
+        console.log(123)
+        this.getAvailableParameters();
+      },
+    },
     methods: {
+      getAvailableParameters() {
+        this.availableParameters = []
+        for (let parameter of this.parameters) {
+          this.availableParameters.push({
+            text: parameter,
+            value: parameter,
+            disabled: this.parametersInUse.has(parameter),
+          });
+        }
+      },
       fieldsFromValue(value) {
         const ability = {
           Id: value.Id,
@@ -82,16 +123,6 @@
         }
         return ability
       },
-      getAvailableParameters() {
-        this.availableParameters = []
-        for (let parameter of this.parameters) {
-          this.availableParameters.push({
-            text: parameter,
-            value: parameter,
-            disabled: this.value.Parameters[parameter] !== "undefined",
-          });
-        }
-      },
       getValue() {
         const result = {
           Id: this.ability.Id,
@@ -100,17 +131,19 @@
         for (let parameter of this.ability.unpackedParameters) {
           result.Parameters[parameter.name] = parameter.value;
         }
+        this.parametersInUse = new Set(Object.keys(result.Parameters));
         return result;
       },
       removeField(index) {
         this.ability.unpackedParameters.splice(index, 1);
         this.$emit('input', this.getValue());
-        this.getAvailableParameters();
+      },
+      addField() {
+        this.ability.unpackedParameters.push({name: null, value: null});
       },
       onInput(fieldIndex, value) {
         this.ability.unpackedParameters[fieldIndex].value = value;
         this.$emit('input', this.getValue());
-        this.getAvailableParameters();
 
       },
       onChange(fieldIndex, value) {
@@ -122,6 +155,7 @@
     data() {
       return {
         parameters: [],
+        parametersInUse: new Set(Object.keys(this.value.Parameters)),
         availableParameters: [],
         ability: this.fieldsFromValue(this.value),
         show: true,
