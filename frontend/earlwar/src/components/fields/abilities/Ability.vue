@@ -20,11 +20,13 @@
         <v-card-text>
           <v-row>
             <v-col md="3">
-              <v-text-field
-                  disabled
+              <v-autocomplete
+                  :disabled="ability.Id"
                   label="Id"
                   v-model="ability.Id"
-              ></v-text-field>
+                  :items="Object.keys(this.availableAbilities)"
+                  @input="onChangeId()"
+              ></v-autocomplete>
             </v-col>
             <v-col md="9">
               <v-row v-for="(parameter, index)  in ability.unpackedParameters" :key="index" align="center">
@@ -95,7 +97,6 @@
     },
     watch: {
       parametersInUse: function () {
-        console.log(123)
         this.getAvailableParameters();
       },
     },
@@ -150,6 +151,9 @@
         this.ability.unpackedParameters[fieldIndex].name = value;
         this.$emit('input', this.getValue());
       },
+      onChangeId() {
+        this.$emit('input', this.getValue());
+      },
 
     },
     data() {
@@ -162,6 +166,9 @@
       }
     },
     mounted() {
+      if (this.ability.Id === null) {
+        return;
+      }
       Api.item({'path': this.availableAbilities[this.ability.Id]})
         .then(
           response => {

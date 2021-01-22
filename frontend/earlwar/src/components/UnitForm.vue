@@ -253,16 +253,7 @@
             </three-col-row>
           </v-card-text>
         </v-card>
-
-        <v-card
-            class="mt-10"
-            width="1024"
-        >
-          <v-card-title>Abilities</v-card-title>
-          <v-card-text>
-            <ability-panel :abilities="data.Abilities"></ability-panel>
-          </v-card-text>
-        </v-card>
+        <ability-panel :abilities="data.Abilities"></ability-panel>
         <v-btn :disabled="invalid">Submit</v-btn>
         {{item}}
       </v-form>
