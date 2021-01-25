@@ -3,10 +3,10 @@
     <h2>{{data.Name}}</h2>
     <validation-observer
         ref="observer"
-        v-slot="{ invalid }"
+        v-slot="{ handleSubmit }"
     >
       <v-form
-          @submit.prevent="submit"
+          @submit.prevent="handleSubmit(onSubmit)"
       >
         <v-card
             class="mt-10"
@@ -254,8 +254,7 @@
           </v-card-text>
         </v-card>
         <ability-panel :abilities="data.Abilities"></ability-panel>
-        <v-btn :disabled="invalid">Submit</v-btn>
-        {{item}}
+        <v-btn class="mt-5">Submit</v-btn>
       </v-form>
     </validation-observer>
   </v-container>
@@ -352,6 +351,31 @@
           });
         }
       },
+      onSubmit() {
+            const data = {
+                ...(this.item || {}), // keep fields that are not updated with form
+                ...this.data,
+            };
+            this.doSave(data, this.onSuccess, this.onError);
+        },
+
+        onSuccess(item) {
+            this.setSuccess(`${this.modelName} saved`);
+            this.data = {
+                ...(this.item || {}),
+                ...this.data,
+                ...item, // add fields returned from server
+            };
+            this.$emit('success', JSON.parse(JSON.stringify(this.data)));
+        },
+
+        onError(errors) {
+            this.$refs.observer.setErrors(errors);
+        },
+
+        doSave(data, onSuccess, onError) {
+            // not implemented
+        },
       getDefaultData() {
         return {
           Version: null,

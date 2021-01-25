@@ -13,7 +13,9 @@
         mdi-window-minimize
       </v-icon>
 
-      <v-icon>mdi-close</v-icon>
+      <v-icon
+        @click="close"
+      >mdi-close</v-icon>
     </v-system-bar>
     <v-expand-transition>
       <div v-show="show">
@@ -21,10 +23,10 @@
           <v-row>
             <v-col md="3">
               <v-autocomplete
-                  :disabled="ability.Id"
+                  :disabled="ability.Id !== null"
                   label="Id"
                   v-model="ability.Id"
-                  :items="Object.keys(this.availableAbilities)"
+                  :items="Object.keys(availableAbilities)"
                   @input="onChangeId()"
               ></v-autocomplete>
             </v-col>
@@ -116,6 +118,9 @@
           Id: value.Id,
         };
         ability.unpackedParameters = [];
+        if (value.Parameters === undefined) {
+          return ability;
+        }
         for (let key of Object.keys(value.Parameters)) {
           ability.unpackedParameters.push({
             name: key,
@@ -154,12 +159,17 @@
       onChangeId() {
         this.$emit('input', this.getValue());
       },
+      close() {
+        if (confirm('Are you sure?')) {
+          this.$emit('close');
+        }
+      }
 
     },
     data() {
       return {
         parameters: [],
-        parametersInUse: new Set(Object.keys(this.value.Parameters)),
+        parametersInUse: new Set(this.value.Parameters === undefined ? [] : Object.keys(this.value.Parameters)),
         availableParameters: [],
         ability: this.fieldsFromValue(this.value),
         show: true,

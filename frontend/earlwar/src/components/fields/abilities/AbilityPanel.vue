@@ -6,9 +6,12 @@
     <v-card-title>Abilities</v-card-title>
     <v-card-text>
       <div v-for="(ability, index) in abilities" :key="ability.Id">
-        <ability v-model="abilities[index]" :available-abilities="availableAbilities"></ability>
+        <ability
+            v-model="abilities[index]"
+            :available-abilities="availableAbilities"
+            @close="deleteField(index)"
+        ></ability>
       </div>
-        {{abilities}}
     </v-card-text>
     <v-card-actions>
       <v-btn
@@ -42,6 +45,9 @@
     methods: {
       addField() {
         this.abilities.push({Id: null, Parameters: {}});
+      },
+      deleteField(index) {
+        this.abilities.splice(index,1);
       }
     },
     mounted() {

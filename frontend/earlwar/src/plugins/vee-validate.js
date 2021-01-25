@@ -1,7 +1,7 @@
 import Vue from 'vue';
 
 import { ValidationObserver, ValidationProvider, extend } from 'vee-validate';
-import { required, max, min_value, max_value } from 'vee-validate/dist/rules';
+import { required, max, min_value, max_value, excluded } from 'vee-validate/dist/rules';
 
 
 Vue.component('validation-observer', ValidationObserver);
@@ -27,3 +27,12 @@ extend('weight', {
     },
     message: 'value should be positive float',
 });
+
+extend('excluded', {
+    ...excluded,
+    validate(value, params) {
+        console.log(params);
+        return !params.includes(value);
+    },
+    message: 'impossible value',
+})
