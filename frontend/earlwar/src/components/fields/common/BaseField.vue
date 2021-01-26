@@ -23,7 +23,7 @@
     },
     methods: {
       convertType(val) {
-        return Number(val)
+        return String(val)
       },
       disableCondition() {
         return false

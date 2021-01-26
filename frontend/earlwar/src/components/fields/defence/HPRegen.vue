@@ -31,7 +31,7 @@
 </template>
 
 <script>
-  import BaseField from "@/components/fields/common/BaseField";
+  import BaseField from "@/components/fields/common/NumberField";
 
   export default {
     extends: BaseField,

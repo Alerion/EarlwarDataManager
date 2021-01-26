@@ -26,7 +26,7 @@
 </template>
 
 <script>
-  import Field from "@/components/fields/common/BaseField";
+  import Field from "@/components/fields/common/NumberField";
 
   export default {
     extends: Field,

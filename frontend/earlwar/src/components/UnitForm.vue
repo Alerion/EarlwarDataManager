@@ -80,22 +80,14 @@
                 ></v-checkbox>
               </template>
               <template v-slot:2-col>
-                <validation-provider
-                    v-slot="{ errors }"
+                <number-field
+                    v-model="data.SquadWeight"
                     vid="SquadWeight"
                     name="SquadWeight"
-                    rules="required|min_value:0.1"
-                >
-                  <v-text-field
-                      v-model="data.SquadWeight"
-                      label="SquadWeight"
-                      default="1"
-                      type="number"
-                      step="0.1 "
-                      required
-                      :error-messages="errors"
-                  ></v-text-field>
-                </validation-provider>
+                    label="Squad Weight"
+                    step="0.1"
+                    rules="min_value:0.1"
+                ></number-field>
               </template>
             </three-col-row>
           </v-card-text>
@@ -254,7 +246,11 @@
           </v-card-text>
         </v-card>
         <ability-panel :abilities="data.Abilities"></ability-panel>
-        <v-btn class="mt-5">Submit</v-btn>
+        <v-btn
+            class="mt-5"
+            type="submit"
+        >Submit
+        </v-btn>
       </v-form>
     </validation-observer>
   </v-container>
@@ -262,6 +258,7 @@
 
 <script>
   import ApiComponent from "@/components/ApiComponent";
+  import Api from '@/api/api';
 
   import ThreeColRow from "@/components/layout/ThreeColRow";
   import OptionalPanel from "@/components/layout/OptionalPanel";
@@ -288,9 +285,11 @@
   import PenetrationMagic from "@/components/fields/penetration/PenetrationMagic";
   import PenetrationChaos from "@/components/fields/penetration/PenetrationChaos";
   import AbilityPanel from "@/components/fields/abilities/AbilityPanel";
+  import NumberField from "@/components/fields/common/NumberField";
 
   export default {
     components: {
+      NumberField,
       AbilityPanel,
       PenetrationChaos,
       PenetrationMagic,
@@ -351,31 +350,44 @@
           });
         }
       },
+      clearEmpty(data) {
+        const result = {};
+        Object.keys(data).forEach((key) => {
+          if (!(data[key] == null || Object.keys(data[key]).length === 0)) {
+            result[key] = data[key];
+          }
+        });
+        return result;
+      },
       onSubmit() {
-            const data = {
-                ...(this.item || {}), // keep fields that are not updated with form
-                ...this.data,
-            };
-            this.doSave(data, this.onSuccess, this.onError);
-        },
+        const data = {
+          ...(this.item || {}), // keep fields that are not updated with form
+          ...this.clearEmpty(this.data),
+        };
+        console.log(data);
+        this.doSave(data, this.onSuccess, this.onError);
+      },
 
-        onSuccess(item) {
-            this.setSuccess(`${this.modelName} saved`);
-            this.data = {
-                ...(this.item || {}),
-                ...this.data,
-                ...item, // add fields returned from server
-            };
-            this.$emit('success', JSON.parse(JSON.stringify(this.data)));
-        },
+      onSuccess(item) {
+        this.setSuccess(`${this.modelName} saved`);
+        this.data = {
+          ...(this.item || {}),
+          ...this.data,
+          ...item, // add fields returned from server
+        };
+        this.$emit('success', JSON.parse(JSON.stringify(this.data)));
+      },
 
-        onError(errors) {
-            this.$refs.observer.setErrors(errors);
-        },
+      onError(errors) {
+        this.$refs.observer.setErrors(errors);
+      },
 
-        doSave(data, onSuccess, onError) {
-            // not implemented
-        },
+      doSave(data, onSuccess, onError) {
+        Api.save({path: this.path}, data)
+          .then(response => onSuccess(response))
+          .catch(error => onError(error))
+        ;
+      },
       getDefaultData() {
         return {
           Version: null,
@@ -385,6 +397,7 @@
           Description: null,
           IsTower: null,
           CanJoinInvasion: null,
+          SquadWeight: null,
           MaxHealth: null,
           ResistancePhysical: null,
           ResistanceMagic: null,

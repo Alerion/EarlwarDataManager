@@ -45,6 +45,9 @@
       },
     },
     methods: {
+      convertType(val) {
+        return Number(val)
+      },
       disableCondition() {
         return this.disabled
       },

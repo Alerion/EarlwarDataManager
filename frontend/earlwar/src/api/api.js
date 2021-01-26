@@ -58,6 +58,10 @@ class Api {
   abilities() {
     return axios.get(this.abilitiesUrl());
   }
+
+  save(queryParams, data) {
+    return axios.post(this.itemUrl(queryParams), data);
+  }
 }
 
 export default new Api({

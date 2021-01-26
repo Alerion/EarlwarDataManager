@@ -3,6 +3,7 @@ import json
 from django.conf import settings
 from django.contrib import messages
 from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
 from earlwar_data_manager.file.file import put_json, get_json
 from earlwar_data_manager.form.validator import Validator
@@ -21,20 +22,21 @@ def table(request):
     return JsonResponse(Table(request.GET.get('path')).get())
 
 
+@csrf_exempt
 def edit(request):
     path = request.GET.get('path')
     schema_type = settings.TYPES[get_root(path)]
 
-    error = ""
     if request.method == 'POST':
-        data = json.loads(request.POST['json'])
+        print(request.body)
+        data = json.loads(request.body)
         try:
             validator = Validator(schema_type, request.build_absolute_uri())
             validator.validate(data)
             put_json(data, path)
             messages.add_message(request, messages.SUCCESS, 'Successfully changed')
         except Exception as err:
-            error = format(err)
+            return JsonResponse(format(err))
     else:
         data = get_json(path)
     return JsonResponse(data)
@@ -43,7 +45,6 @@ def edit(request):
 def list(request):
     global abilities
     if not abilities:
-        print(123)
         abilities = {'data': Tree().get_items(request.GET.get('path'))}
 
     return JsonResponse(abilities)
