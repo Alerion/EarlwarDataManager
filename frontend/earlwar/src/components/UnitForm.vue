@@ -364,10 +364,8 @@
           ...(this.item || {}), // keep fields that are not updated with form
           ...this.clearEmpty(this.data),
         };
-        console.log(data);
         this.doSave(data, this.onSuccess, this.onError);
       },
-
       onSuccess(item) {
         this.setSuccess(`${this.modelName} saved`);
         this.data = {

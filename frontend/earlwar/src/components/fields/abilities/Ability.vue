@@ -14,8 +14,9 @@
       </v-icon>
 
       <v-icon
-        @click="close"
-      >mdi-close</v-icon>
+          @click="close"
+      >mdi-close
+      </v-icon>
     </v-system-bar>
     <v-expand-transition>
       <div v-show="show">
@@ -48,17 +49,14 @@
                   </validation-provider>
                 </v-col>
                 <v-col md="5">
-                  <validation-provider
-                      v-slot="{ errors }"
-                      ref="validation"
+                  <number-field
+                      v-model="ability.unpackedParameters[index].value"
+                      :vid="`AbilityValue${index}`"
+                      :name="`AbilityValue${index}`"
+                      label="Ability Value"
                       rules="required"
-                  >
-                    <v-text-field
-                        v-model="ability.unpackedParameters[index].value"
-                        @input="onInput(index, $event)"
-                        :error-messages="errors"
-                    ></v-text-field>
-                  </validation-provider>
+                      @input="onInput(index, $event)"
+                  ></number-field>
                 </v-col>
                 <v-col md="2">
                   <v-icon
@@ -90,9 +88,11 @@
 
 <script>
   import Api from "@/api/api"
+  import NumberField from "@/components/fields/common/NumberField";
 
   export default {
     name: "Ability",
+    components: {NumberField},
     props: {
       value: Object,
       availableAbilities: Object,
@@ -133,6 +133,9 @@
         const result = {
           Id: this.ability.Id,
         };
+        if (this.ability.unpackedParameters.length === 0) {
+          return result;
+        }
         result.Parameters = {}
         for (let parameter of this.ability.unpackedParameters) {
           result.Parameters[parameter.name] = parameter.value;
